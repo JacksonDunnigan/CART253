@@ -1,33 +1,35 @@
-/**
-Title of Project
-Author Name
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
-*/
 
 "use strict";
 
+// Declares the objects
+let rectangles = [];
+let shapeAmount = 5;
 
-/**
-Description of preload
-*/
-function preload() {
-
-}
-
-
-/**
-Description of setup
-*/
+// Sets up the canvas
 function setup() {
+  createCanvas(500,500);
 
+  // Creates the objects
+  for (let i = 0; i < shapeAmount; i++) {
+      rectangles.push(new Shape());
+    }
 }
 
+// Checks if the user clicks the mouse
+function mouseClicked() {
+  for (let i = 0; i < rectangles.length; i++) {
+    rectangles[i].mouseCheck();
+  }
+}
 
-/**
-Description of draw()
-*/
+// Draws every element
 function draw() {
+  frameRate(60);
 
+  // Updates and draws objects
+  for (let i = 0; i < rectangles.length; i++) {
+    rectangles[i].move();
+    rectangles[i].display();
+  }
 }
