@@ -28,6 +28,8 @@ class Enemy {
       this.vy -= this.acceleration;
     }
 
+
+
     this.vx = constrain(this.vx, -this.terminalVelocity, this.terminalVelocity);
     this.vy = constrain(this.vy, -this.terminalVelocity, this.terminalVelocity);
 

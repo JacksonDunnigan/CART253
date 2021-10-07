@@ -6,7 +6,9 @@ let user = {
   vx: 0,
   vy: 0,
   speed: 3,
-  spawnDistance: 300
+  spawnDistance: 300,
+  grandmaCount: 1,
+  warningMessage: false
 };
 
 // Defines the enemy;
@@ -17,34 +19,53 @@ let state = `title`;
 
 // Defines images
 let grandma;
+let floor;
 
 function preload(){
-  grandma =  loadImage('assets/images/grandma.png');
+  grandma = loadImage('assets/images/grandma.png');
+  floor = loadImage('assets/images/floor.jpg');
+
 }
 
 function setup() {
   createCanvas(500,500);
+  floor.resize(50, 50);
+  noCursor();
   setupCircles();
 }
 
 // Generates enemies and separates circles from one another
 function setupCircles() {
 
-  user.x = constrain(mouseX, 0, width);;
-  user.y = constrain(mouseY, 0, width);;
+  user.x = constrain(mouseX, 0, width);
+  user.y = constrain(mouseY, 0, width);
   var tempX = user.x;
   var tempY = user.y;
-  while(dist(user.x, user.y, tempX, tempY) <= width *0.75) {
-    tempX = user.x + random(-user.spawnDistance, user.spawnDistance);
-    tempY = user.y + random(-user.spawnDistance, user.spawnDistance);
-  }
+  for (var i = 0; i < user.grandmaCount; i ++) {
 
-  // Creates the enemy
-  enemy.push(new Enemy(tempX, tempY, user.size * 1.5));
+    while(dist(user.x, user.y, tempX, tempY) <= width *0.75) {
+      tempX = user.x + random(-user.spawnDistance, user.spawnDistance);
+      tempY = user.y + random(-user.spawnDistance, user.spawnDistance);
+    }
+
+    // Creates the enemy
+    enemy.push(new Enemy(tempX, tempY, user.size * 1.5));
+    tempX = user.x;
+    tempY = user.y;
+  }
 }
 
 function draw() {
   background(0);
+  
+  // Tiled floor
+  if (state === `simulation`){
+    for (var y = 0; y < height / floor.height + 1; y++) {
+      for (var x = 0; x < width / floor.width + 1; x++) {
+        image(floor, x * floor.width, y * floor.height);
+      }
+    }
+  }
 
   if (state === `title`) {
     title();
@@ -63,15 +84,19 @@ function draw() {
 function title() {
   push();
   textSize(64);
-  fill(200,100,100);
+  fill(200, 100, 100);
   textAlign(CENTER,CENTER);
-  text(`LOVE?`,width / 2,height / 2);
+  if (user.grandmaCount > 1 && user.warningMessage == false) {
+    text(`LOOK WHAT\nYOU'VE DONE!`, width / 2, height / 2);
+  } else {
+    text(`DON'T LET\nGRANDMA\nKISS YOU!`, width / 2, height / 2);
+  }
   pop();
 }
 
 function simulation() {
   move();
-  //checkOffscreen();
+  checkOffscreen();
   checkOverlap();
   display();
 }
@@ -85,12 +110,26 @@ function love() {
   pop();
 }
 
+function cursed() {
+  push();
+  textSize(64);
+  fill(255, 150, 150);
+  textAlign(CENTER,CENTER);
+  text(`LOVE!`, width/2, height/2);
+  pop();
+}
+
 function sadness() {
   push();
   textSize(64);
   fill(150,150,255);
   textAlign(CENTER,CENTER);
-  text(`:(`, width / 2, height / 2);
+
+  if (user.grandmaCount > 1) {
+    text(`DON'T GET TO\n5 GRANDMAS!`, width / 2, height / 2);
+  } else {
+    text(`NO ESCAPING\nGRANDMA!`, width / 2, height / 2);
+  }
   pop();
 }
 
@@ -106,21 +145,21 @@ function move() {
   }
 }
 
-// Check if the circles have gone offscreen
-// function checkOffscreen() {
-//   if (isOffscreen(user)) {
-//     state = `sadness`;
-//   }
-// }
-//
-// function isOffscreen(circle) {
-//   if (circle.x < 0 || circle.x > width || circle.y < 0 || circle.y > height) {
-//     return true;
-//   }
-//   else {
-//     return false;
-//   }
-// }
+//Check if the circles have gone offscreen
+function checkOffscreen() {
+  if (isOffscreen(user)) {
+    state = `sadness`;
+  }
+}
+
+function isOffscreen(circle) {
+  if (circle.x < 0 || circle.x > width || circle.y < 0 || circle.y > height) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
 
 function checkOverlap() {
   // Check if the circles overlap
@@ -145,9 +184,20 @@ function display() {
 
 // Controling game states
 function mousePressed() {
+
   if (state === `title`) {
+    if (user.grandmaCount > 1) {
+      user.warningMessage = true;
+    }
     state = `simulation`;
-  } else if (state == `sadness` || state == `love`) {
+  } else if (state == `sadness`) {
+    user.grandmaCount += 1;
+    state = `title`;
+    for (var i = 0; i < enemy.length; i++) {
+      enemy.splice(i);
+    }
+    setup();
+  } else if (state == `love`) {
     state = `title`;
     for (var i = 0; i < enemy.length; i++){
       enemy.splice(i);
