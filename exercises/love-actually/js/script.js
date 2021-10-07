@@ -8,7 +8,15 @@ let user = {
   speed: 3,
   spawnDistance: 300,
   grandmaCount: 1,
+  cursed: false,
+  secretEnding: false,
   warningMessage: false
+};
+
+let door = {
+  x: 75,
+  y: 100,
+  size: 75
 };
 
 // Defines the enemy;
@@ -18,21 +26,26 @@ let enemy = [];
 let state = `title`;
 
 // Defines images
-let grandma;
-let player;
-let floor;
+let grandmaArt;
+let monsterArt;
+let doorArt;
+let playerArt;
+let floorArt;
 let fontPixel;
-function preload(){
-  grandma = loadImage('assets/images/grandma.png');
-  floor = loadImage('assets/images/floor.png');
-  player = loadImage('assets/images/kid.png');
 
+function preload(){
+  grandmaArt = loadImage('assets/images/grandma.png');
+  floorArt = loadImage('assets/images/floor.png');
+  monsterArt = loadImage('assets/images/monster.png');
+  playerArt = loadImage('assets/images/kid.png');
+  doorArt = loadImage('assets/images/door.png');
   fontPixel = loadFont('assets/ArcadeClassic.ttf');
 }
 
 function setup() {
   createCanvas(500,500);
-  floor.resize(50, 50);
+  floorArt.resize(50, 50);
+  doorArt.resize(100, 100);
   noCursor();
   setupCircles();
   textFont(fontPixel);
@@ -41,8 +54,8 @@ function setup() {
 // Generates enemies and separates circles from one another
 function setupCircles() {
 
-  user.x = constrain(mouseX, 0, width);
-  user.y = constrain(mouseY, 0, width);
+  user.x = mouseX//constrain(mouseX, 0, width);
+  user.y = mouseY//constrain(mouseY, 0, width);
   var tempX = user.x;
   var tempY = user.y;
   for (var i = 0; i < user.grandmaCount; i ++) {
@@ -53,7 +66,7 @@ function setupCircles() {
     }
 
     // Creates the enemy
-    enemy.push(new Enemy(tempX, tempY, user.size * 1.5));
+    enemy.push(new Enemy(tempX, tempY, user.size * 1.5, user.cursed));
     tempX = user.x;
     tempY = user.y;
   }
@@ -62,14 +75,6 @@ function setupCircles() {
 function draw() {
   background(0);
 
-  // Tiled floor
-  if (state === `simulation`){
-    for (var y = 0; y < height / floor.height + 1; y++) {
-      for (var x = 0; x < width / floor.width + 1; x++) {
-        image(floor, x * floor.width, y * floor.height);
-      }
-    }
-  }
 
   if (state === `title`) {
     title();
@@ -82,6 +87,9 @@ function draw() {
   }
   else if (state === `sadness`) {
     sadness();
+  }
+  else if (state === `secret`) {
+    secret();
   }
 }
 
@@ -100,7 +108,7 @@ function title() {
 
 function simulation() {
   move();
-  checkOffscreen();
+  checkDoorCollision();
   checkOverlap();
   display();
 }
@@ -114,12 +122,12 @@ function love() {
   pop();
 }
 
-function cursed() {
+function secret() {
   push();
   textSize(64);
   fill(255, 150, 150);
   textAlign(CENTER,CENTER);
-  text(`LOVE!`, width/2, height/2);
+  text(`GRANDMA\nATE YOU`, width/2, height/2);
   pop();
 }
 
@@ -138,44 +146,50 @@ function sadness() {
 }
 
 function move() {
-
   // Moves the circles
-  user.x = constrain(mouseX, 0, width);//+= circle1.vx;
-  user.y = constrain(mouseY, 0, height);//+= circle1.vy;
-
+  user.x = constrain(mouseX, 0, width);
+  user.y = constrain(mouseY, 0, height);
 
   for (var i = 0; i < enemy.length; i++){
     enemy[i].move();
   }
 }
 
-//Check if the circles have gone offscreen
-function checkOffscreen() {
-  if (isOffscreen(user)) {
+//Checks for door collision
+function checkDoorCollision() {
+
+  let d = dist(user.x, user.y, door.x, door.y);
+  if (d < user.size / 2) {
     state = `sadness`;
   }
 }
 
-function isOffscreen(circle) {
-  if (circle.x < -100 || circle.x > width + 100 || circle.y < -100 || circle.y > height + 100) {
-    return true;
-  }
-  else {
-    return false;
-  }
-}
 
 function checkOverlap() {
   // Check if the circles overlap
   for (var i = 0; i < enemy.length; i++){
     let d = dist(user.x, user.y, enemy[i].x, enemy[i].y - enemy[i].size * 0.2);
     if (d < user.size / 2) {
-      state = `love`;
+      if (user.secretEnding == false){
+        state = `love`;
+      } else {
+        state = `secret`;
+      }
     }
   }
 }
 
 function display() {
+
+  // Tiled floor
+  for (var y = 0; y < height / floorArt.height + 1; y++) {
+    for (var x = 0; x < width / floorArt.width + 1; x++) {
+      image(floorArt, x * floorArt.width, y * floorArt.height);
+    }
+  }
+
+  //draws the door
+  image(doorArt, door.x, door.y);
 
   // Display the grandma
   for (var i = 0; i < enemy.length; i++){
@@ -183,34 +197,45 @@ function display() {
   }
 
   // Displays the user
-  image(player, user.x, user.y, user.size * 1.5, user.size * 1.5);
+  image(playerArt, user.x, user.y, user.size * 1.5, user.size * 1.5);
 
 }
 
 // Controling game states
 function mousePressed() {
 
-  //if (isOffscreen(user) == false) {
-
-    if (state === `title`) {
-      if (user.grandmaCount > 1) {
-        user.warningMessage = true;
-      }
-      state = `simulation`;
-    } else if (state == `sadness`) {
-
-      user.grandmaCount = min(user.grandmaCount + 1, 5);
-      state = `title`;
-      for (var i = 0; i < enemy.length; i++) {
-        enemy.splice(i);
-      }
-      setup();
-    } else if (state == `love`) {
-      state = `title`;
-      for (var i = 0; i < enemy.length; i++){
-        enemy.splice(i);
-      }
-      setup();
+  if (state === `title`) {
+    if (user.grandmaCount > 1) {
+      user.warningMessage = true;
     }
-  //}
+
+    if (user.grandmaCount >= 4) {
+      user.cursed = true;
+    }
+
+    state = `simulation`;
+  } else if (state == `sadness`) {
+
+    user.grandmaCount = min(user.grandmaCount + 1, 5);
+    state = `title`;
+    for (var i = 0; i < enemy.length; i++) {
+      enemy.splice(i);
+    }
+    setup();
+  } else if (state == `love`) {
+    state = `title`;
+    for (var i = 0; i < enemy.length; i++){
+      enemy.splice(i);
+    }
+    setup();
+  } else if (state == `secret`) {
+    state = `title`;
+    for (var i = 0; i < enemy.length; i++){
+      enemy.splice(i);
+    }
+    user.cursed = false;
+    user.secretEnding = false;
+    user.grandmaCount = 1;
+    setup();
+  }
 }

@@ -1,47 +1,79 @@
 // Defines a shape class
 class Enemy {
-  constructor(x, y, size) {
+  constructor(x, y, size, cursed) {
     this.x = x;
     this.y = y;
     this.size = size;
     this.vx = 0;
     this.vy = 0;
+    this.cursed = cursed;
+    this.cursedTimer = 0;
+    this.timer = false;
+    this.maxCursedTimer = 240;
     this.acceleration = 0.25;
     this.terminalVelocity = 3;
-    this.speed = 3;
-    this.sprite = grandma;
-    this.targetX = random(-150, 150);
-    this.targetY = random(-150, 150);
+    this.sprite = grandmaArt;
+    this.monsterSprite = monsterArt;
+    this.targetXAmount = random(-150, 150);
+    this.targetYAmount = random(-150, 150);
+
+    this.targetX = 0;
+    this.targetY = 0;
+
   }
 
   // Moving logic
   move() {
 
+    // Logic for the secret ending
+    if (this.cursed == false) {
+
+      this.targetX = mouseX + this.targetXAmount;
+      this.targetY = mouseY + this.targetYAmount;
+
+    } else {
+
+      this.targetX = width / 2;
+      this.targetY = height / 4;
+
+      if (dist(this.x, this.y, this.targetX, this.targetY) <= this.size/4 && this.cursedTimer == 0 && this.timer == false) {
+        this.cursedTimer = this.maxCursedTimer;
+        this.timer = true;
+      }
+      this.cursedTimer = max(this.cursedTimer - 1, 0);
+
+      if (this.cursedTimer <= 0 && this.timer == true) {
+        this.timer = false;
+        this.cursed = false;
+        user.secretEnding = true;
+        this.sprite = this.monsterSprite;
+      }
+    }
+
 
     // Acceleration and terminal velocity
-    if (mouseX + this.targetX > this.x + this.size / 2) {
+    if (this.targetX > this.x) {
       this.vx += this.acceleration;
-    } else if (mouseX + this.targetX < this.x - this.size / 2) {
+    } else if (this.targetX < this.x) {
       this.vx -= this.acceleration;
+    } else if (cursed){
+        this.vx = 0;
     }
-    if (mouseY + this.targetY > this.y + this.size / 2) {
+    if (this.targetY > this.y) {
       this.vy += this.acceleration;
-    } else if (mouseY + this.targetY < this.y - this.size / 2) {
+    } else if (this.targetY < this.y) {
       this.vy -= this.acceleration;
+    } else if (cursed) {
+        this.vy = 0;
     }
-
-
 
     this.vx = constrain(this.vx, -this.terminalVelocity, this.terminalVelocity);
     this.vy = constrain(this.vy, -this.terminalVelocity, this.terminalVelocity);
 
     // Moves the circles
-    user.x = mouseX;//+= circle1.vx;
-    user.y = mouseY;//+= circle1.vy;
     this.x += this.vx;
     this.y += this.vy;
-
-    }
+  }
 
   // Draws the shape
   display() {
