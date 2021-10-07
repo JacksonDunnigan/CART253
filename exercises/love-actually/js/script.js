@@ -19,12 +19,13 @@ let state = `title`;
 
 // Defines images
 let grandma;
+let player;
 let floor;
 
 function preload(){
   grandma = loadImage('assets/images/grandma.png');
   floor = loadImage('assets/images/floor.jpg');
-
+  player = loadImage('assets/images/user.png');
 }
 
 function setup() {
@@ -57,7 +58,7 @@ function setupCircles() {
 
 function draw() {
   background(0);
-  
+
   // Tiled floor
   if (state === `simulation`){
     for (var y = 0; y < height / floor.height + 1; y++) {
@@ -179,7 +180,8 @@ function display() {
   }
 
   // Displays the user
-  ellipse(user.x, user.y, user.size);
+  image(player, user.x, user.y, user.size * 1.5, user.size * 1.5);
+
 }
 
 // Controling game states

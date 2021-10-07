@@ -10,21 +10,23 @@ class Enemy {
     this.terminalVelocity = 3;
     this.speed = 3;
     this.sprite = grandma;
-
+    this.targetX = random(-150, 150);
+    this.targetY = random(-150, 150);
   }
 
   // Moving logic
   move() {
 
+
     // Acceleration and terminal velocity
-    if (mouseX > this.x + this.size / 2) {
+    if (mouseX + this.targetX > this.x + this.size / 2) {
       this.vx += this.acceleration;
-    } else if (mouseX < this.x - this.size / 2) {
+    } else if (mouseX + this.targetX < this.x - this.size / 2) {
       this.vx -= this.acceleration;
     }
-    if (mouseY > this.y + this.size / 2) {
+    if (mouseY + this.targetY > this.y + this.size / 2) {
       this.vy += this.acceleration;
-    } else if (mouseY < this.y - this.size / 2) {
+    } else if (mouseY + this.targetY < this.y - this.size / 2) {
       this.vy -= this.acceleration;
     }
 
@@ -43,7 +45,6 @@ class Enemy {
 
   // Draws the shape
   display() {
-
     imageMode(CENTER)
 
     // Draws sprite and rotates
