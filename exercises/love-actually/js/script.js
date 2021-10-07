@@ -21,11 +21,13 @@ let state = `title`;
 let grandma;
 let player;
 let floor;
-
+let fontPixel;
 function preload(){
   grandma = loadImage('assets/images/grandma.png');
-  floor = loadImage('assets/images/floor.jpg');
-  player = loadImage('assets/images/user.png');
+  floor = loadImage('assets/images/floor.png');
+  player = loadImage('assets/images/kid.png');
+
+  fontPixel = loadFont('assets/ArcadeClassic.ttf');
 }
 
 function setup() {
@@ -33,6 +35,7 @@ function setup() {
   floor.resize(50, 50);
   noCursor();
   setupCircles();
+  textFont(fontPixel);
 }
 
 // Generates enemies and separates circles from one another
@@ -88,9 +91,9 @@ function title() {
   fill(200, 100, 100);
   textAlign(CENTER,CENTER);
   if (user.grandmaCount > 1 && user.warningMessage == false) {
-    text(`LOOK WHAT\nYOU'VE DONE!`, width / 2, height / 2);
+    text(`LOOK WHAT\nYOUVE DONE!`, width / 2, height / 2);
   } else {
-    text(`DON'T LET\nGRANDMA\nKISS YOU!`, width / 2, height / 2);
+    text(`DONT LET\nGRANDMA\nKISS YOU!`, width / 2, height / 2);
   }
   pop();
 }
@@ -107,7 +110,7 @@ function love() {
   textSize(64);
   fill(255, 150, 150);
   textAlign(CENTER,CENTER);
-  text(`LOVE!`, width/2, height/2);
+  text(`YOU  LOSE!`, width/2, height/2);
   pop();
 }
 
@@ -127,7 +130,7 @@ function sadness() {
   textAlign(CENTER,CENTER);
 
   if (user.grandmaCount > 1) {
-    text(`DON'T GET TO\n5 GRANDMAS!`, width / 2, height / 2);
+    text(`DONT GET TO\n5 GRANDMAS!`, width / 2, height / 2);
   } else {
     text(`NO ESCAPING\nGRANDMA!`, width / 2, height / 2);
   }
@@ -154,7 +157,7 @@ function checkOffscreen() {
 }
 
 function isOffscreen(circle) {
-  if (circle.x < 0 || circle.x > width || circle.y < 0 || circle.y > height) {
+  if (circle.x < -100 || circle.x > width + 100 || circle.y < -100 || circle.y > height + 100) {
     return true;
   }
   else {
@@ -166,7 +169,7 @@ function checkOverlap() {
   // Check if the circles overlap
   for (var i = 0; i < enemy.length; i++){
     let d = dist(user.x, user.y, enemy[i].x, enemy[i].y - enemy[i].size * 0.2);
-    if (d < user.size / 2 + enemy[i].size / 4) {
+    if (d < user.size / 2) {
       state = `love`;
     }
   }
@@ -187,23 +190,27 @@ function display() {
 // Controling game states
 function mousePressed() {
 
-  if (state === `title`) {
-    if (user.grandmaCount > 1) {
-      user.warningMessage = true;
+  //if (isOffscreen(user) == false) {
+
+    if (state === `title`) {
+      if (user.grandmaCount > 1) {
+        user.warningMessage = true;
+      }
+      state = `simulation`;
+    } else if (state == `sadness`) {
+
+      user.grandmaCount = min(user.grandmaCount + 1, 5);
+      state = `title`;
+      for (var i = 0; i < enemy.length; i++) {
+        enemy.splice(i);
+      }
+      setup();
+    } else if (state == `love`) {
+      state = `title`;
+      for (var i = 0; i < enemy.length; i++){
+        enemy.splice(i);
+      }
+      setup();
     }
-    state = `simulation`;
-  } else if (state == `sadness`) {
-    user.grandmaCount += 1;
-    state = `title`;
-    for (var i = 0; i < enemy.length; i++) {
-      enemy.splice(i);
-    }
-    setup();
-  } else if (state == `love`) {
-    state = `title`;
-    for (var i = 0; i < enemy.length; i++){
-      enemy.splice(i);
-    }
-    setup();
-  }
+  //}
 }
