@@ -7,7 +7,7 @@ author, and this description to match your project!
 */
 
 "use strict";
-
+let size = 512;
 
 /**
 Description of preload
@@ -17,9 +17,7 @@ function preload() {
 }
 
 
-/**
-Description of setup
-*/
+
 function setup() {
 
 }
