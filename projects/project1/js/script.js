@@ -38,6 +38,7 @@ function setup() {
     }
   }
 
+  tiles[2][3] = new Tile(2 * tileSize, 3 * tileSize, tileSize);
   tiles[5][5] = new Tile(5 * tileSize, 5 * tileSize, tileSize);
 }
 
@@ -47,13 +48,12 @@ function xCollision(x, y, size) {
 }
 
 // Vertical collision
-function collision(xx, yy, size) {
+function verticalCollision(xx, yy, size) {
   for (var y = 0; y < tiles.length; y++) {
     for (var x = 0; x < tiles[y].length; x++) {
       if (tiles[y][x] != null) {
-        if (yy + size >= tiles[y][x].y && xx + size >= tiles[y][x].x && xx <= tiles[y][x].x + tiles[y][x].size) {
+        if (yy + size >= tiles[y][x].y && yy <= tiles[y][x].y + tiles[y][x].size && xx + size > tiles[y][x].x && xx < tiles[y][x].x + tiles[y][x].size) {
           return true;
-          console.log(1);
         }
       }
     }
@@ -61,43 +61,19 @@ function collision(xx, yy, size) {
   return false;
 }
 
-// Keyboard input
-function keyPressed() {
-
-  // Left movement
-  if (keyCode === LEFT_ARROW || key === 'a') {
-    //if (player.direction == 0) {
-      player.direction = -1;
-    //} else if (player.direction = 1){
-    //  player.direction = 0;
-    //}
-  }
-
-  // Right movement
-  if (keyCode === RIGHT_ARROW || key === 'd') {
-    //if (player.direction == 0) {
-      player.direction = 1
-    //} else if (player.direction = -1){
-    //  player.direction = 0;
-  //  }
-  }
-
-  //player.direction = right - left;
-
-  // Jumping movement
-  if (keyCode == 32) {
-    if (player.jump == false) {
-      player.jump = true;
-      player.yVelocity = - player.terminalYVelocity;
+// horizontal collision
+function horizontalCollision(xx, yy, size) {
+  for (var y = 0; y < tiles.length; y++) {
+    for (var x = 0; x < tiles[y].length; x++) {
+      if (tiles[y][x] != null) {
+        if (xx + size >= tiles[y][x].x && xx <= tiles[y][x].x + tiles[y][x].size && yy < tiles[y][x].y + tiles[y][x].size && yy + size > tiles[y][x].y) {
+          return true;
+        }
+      }
     }
   }
-
+  return false;
 }
-function keyReleased() {
-
-  player.direction = 0;
-}
-
 
 // Draws everything on the screen
 function draw() {

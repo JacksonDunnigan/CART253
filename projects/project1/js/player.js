@@ -17,16 +17,39 @@ class Player {
   // Moving logic
   move() {
 
-    // Collision
-    if (collision(this.x + this.xVelocity, this.y + this.yVelocity, this.size)){
-      this.yVelocity = 0;
-      this.jump = false;
+    // Keyboard input
+    if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
+      this.direction = 1;
+    } else if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
+      this.direction = -1;
     } else {
-      this.yVelocity += this.gravity;
+      this.direction = 0;
+    }
+
+    // Jumping movement
+    if (keyIsDown(32) && this.jump == false && this.yVelocity == 0) {
+      this.jump = true;
+      this.yVelocity = - this.terminalYVelocity;
     }
 
     // Input
     this.xVelocity += this.direction * this.acceleration;
+
+    // Collision
+    if (verticalCollision(this.x, this.y + this.yVelocity, this.size)){
+      if (this.yVelocity > 0) {
+        this.jump = false;
+      }
+      this.yVelocity = 0;
+
+    } else {
+      this.yVelocity += this.gravity;
+    }
+
+    if (horizontalCollision(this.x + this.xVelocity, this.y, this.size)){
+      this.xVelocity = 0;
+    }
+
 
     // Deceleration
     if (this.direction == 0) {
@@ -44,8 +67,8 @@ class Player {
     this.yVelocity = constrain(this.yVelocity, -this.terminalYVelocity, this.terminalYVelocity);
 
     // Moves the circles
-    this.x += this.xVelocity;
-    this.y += this.yVelocity;
+    this.x = constrain(this.x + this.xVelocity, 0, width - this.size);
+    this.y = constrain(this.y + this.yVelocity, 0, height);
   }
 
   // Draws the shape
