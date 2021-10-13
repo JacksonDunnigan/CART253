@@ -26,8 +26,8 @@ function mouseClicked() {
 // Draws every element
 function draw() {
   frameRate(60);
-  background(255);
-  
+  //background(255);
+
   // Updates and draws objects
   for (let i = 0; i < rectangles.length; i++) {
     rectangles[i].move();

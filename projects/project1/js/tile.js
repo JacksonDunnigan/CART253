@@ -1,10 +1,11 @@
 // Defines the player class
 class Tile {
-  constructor(x, y, size) {
+  constructor(x, y, size, type) {
     this.x = x;
     this.y = y;
     this.size = size;
-
+    this.sprite = grass;
+    this.tileIndex = type;
   }
 
   // Moving logic
@@ -17,8 +18,9 @@ class Tile {
     push();
     noStroke();
     rectMode(CORNER);
-    fill(3, 160, 98);
-    rect(this.x, this.y, this.size, this.size);
+    //fill(3, 160, 98);
+    image(this.sprite[this.tileIndex], this.x, this.y, this.size, this.size);
+    //rect(this.x, this.y, this.size, this.size);
     pop();
   }
 }
