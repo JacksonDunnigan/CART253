@@ -103,10 +103,12 @@ class Player {
 
     push();
     imageMode(CENTER);
+    noSmooth();
 
     // Manages the current sprite
     var currentSprite;
     if (this.xVelocity != 0) {
+      smooth();
       if (this.currentObject == 1) {
         currentSprite = this.sprite[1];
       } else if (this.currentObject == 2) {

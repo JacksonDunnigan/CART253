@@ -14,6 +14,8 @@ let grass = [];
 let playerSprite = [];
 let barn;
 let buttons = [];
+let logo;
+let titleGrass;
 
 // Defines the font
 let fontPixel;
@@ -37,6 +39,8 @@ function preload() {
   playerSprite[2] = loadImage('assets/images/player/player_idle_state2.png');
   playerSprite[3] = loadImage('assets/images/player/player_walking_state2.png');
 
+  logo = loadImage('assets/images/logo.png');
+  titleGrass = loadImage('assets/images/title_grass.png');
   buttons[0] = loadImage('assets/images/button1.png');
   buttons[1] = loadImage('assets/images/button2.png');
 }
@@ -119,15 +123,25 @@ function horizontalCollision(xx, yy, spriteWidth, spriteHeight) {
 
 // Title screen
 function title() {
-  push();
-  textSize(96);
-  fill(200, 100, 100);
-  textAlign(CENTER, CENTER);
-  text(`Harvest`, width / 2, height / 3);
-  textSize(40);
-  text(`insert coin`, width / 2, height - tileSize * 3);
-  pop();
 
+  push();
+  noSmooth();
+  image(logo, tileSize, tileSize, logo.width * 2, logo.height * 2);
+
+  fill(61, 30, 48);
+
+  textAlign(CENTER, CENTER);
+  textSize(40);
+  text(`insert coin`, width / 4, height * 0.3);
+
+
+  // Draws grass
+
+
+  image(titleGrass, 0, height * 0.666, titleGrass.width * 2.5, titleGrass.height * 2.5);
+  image(barn, width * 0.6, height * 0.3 + 6, barn.width * 2.5, barn.height * 2.5);
+  image(playerSprite[0], width * 0.45, height * 0.5 - 8, playerSprite[0].width * 2.5, playerSprite[0].height * 2.5);
+  pop();
   // Checks if any key is pressed. If so, the game will start
   if (keyIsPressed === true || mouseIsPressed === true) {
     state = 'simulation';
@@ -136,7 +150,8 @@ function title() {
 
 // Main game loop
 function simulation() {
-
+    noSmooth();
+    
     // Draws the tiles
     for (var y = 0; y < tiles.length; y++) {
       for (var x = 0; x < tiles[y].length; x++) {
