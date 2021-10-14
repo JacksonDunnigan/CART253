@@ -1,21 +1,25 @@
 /**
 Project 1
 Jackson Dunnigan
+lucky harvest is a retro arcade styled farming simulator
 */
 
 "use strict";
 let size = 672;
 let tileSize = 48;
 
+
 // Defines objects
 let player;
 let tiles = [];
 let grass = [];
+let crops = [];
 let playerSprite = [];
 let barn;
 let buttons = [];
 let logo;
 let titleGrass;
+let corn;
 
 // Defines the font
 let fontPixel;
@@ -39,6 +43,7 @@ function preload() {
   playerSprite[2] = loadImage('assets/images/player/player_idle_state2.png');
   playerSprite[3] = loadImage('assets/images/player/player_walking_state2.png');
 
+  corn = loadImage('assets/images/corn.png');
   logo = loadImage('assets/images/logo.png');
   titleGrass = loadImage('assets/images/title_grass.png');
   buttons[0] = loadImage('assets/images/button1.png');
@@ -57,7 +62,7 @@ function setup() {
 function setupScreen() {
 
   // Creates the player
-  player = new Player(size / 2, 0, tileSize);
+  player = new Player(size * 0.667, tileSize * 9, tileSize);
   state = 'simulation';
 
   // Defines the floor
@@ -75,8 +80,10 @@ function setupScreen() {
     }
   }
 
-    //tiles[2][7] = new Tile(2 * tileSize, 7 * tileSize, tileSize);
-    //tiles[5][9] = new Tile(5 * tileSize, 9 * tileSize, tileSize);
+  // Generates crops
+  for (var x = 0; x < 6; x++) {
+    crops.push(new Plant(64 + x * tileSize, 9 * tileSize, tileSize, floor(random(2))));
+  }
 
   // Gives each tile the proper sprite
   for (var y = 0; y < tiles.length; y++) {
@@ -129,19 +136,20 @@ function title() {
   image(logo, tileSize, tileSize, logo.width * 2, logo.height * 2);
 
   fill(61, 30, 48);
-
   textAlign(CENTER, CENTER);
   textSize(40);
   text(`insert coin`, width / 4, height * 0.3);
 
-
+  // Draws crops
+  image(corn, width * .05, height * 0.515, tileSize * 1.5, tileSize * 3, 64, 0, 32, 64);
+  image(corn, width * .19, height * 0.515, tileSize * 1.5, tileSize * 3, 128, 0, 32, 64);
+  image(corn, width * .33, height * 0.515, tileSize * 1.5, tileSize * 3, 32, 0, 32, 64);
   // Draws grass
-
-
-  image(titleGrass, 0, height * 0.666, titleGrass.width * 2.5, titleGrass.height * 2.5);
+  image(titleGrass, 0, height * 0.667, titleGrass.width * 2.5, titleGrass.height * 2.5);
   image(barn, width * 0.6, height * 0.3 + 6, barn.width * 2.5, barn.height * 2.5);
   image(playerSprite[0], width * 0.45, height * 0.5 - 8, playerSprite[0].width * 2.5, playerSprite[0].height * 2.5);
   pop();
+
   // Checks if any key is pressed. If so, the game will start
   if (keyIsPressed === true || mouseIsPressed === true) {
     state = 'simulation';
@@ -151,7 +159,7 @@ function title() {
 // Main game loop
 function simulation() {
     noSmooth();
-    
+
     // Draws the tiles
     for (var y = 0; y < tiles.length; y++) {
       for (var x = 0; x < tiles[y].length; x++) {
@@ -161,13 +169,17 @@ function simulation() {
       }
     }
 
+    // Draws the crops
+    for (var x = 0; x < crops.length; x++) {
+      crops[x].display();
+    }
+
     // Draws the barn
     image(barn, width - tileSize * 4, height - tileSize * 6.5, barn.width * (tileSize / 32), barn.height * (tileSize / 32));
 
     // Draws the player object
     player.move();
     player.display();
-
 
     // Outlines the current object
     push();

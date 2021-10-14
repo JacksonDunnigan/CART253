@@ -6,13 +6,14 @@ class Tile {
     this.size = size;
     this.sprite = grass;
     this.tileIndex = type;
+    this.sprite = grass;
+
+
   }
-  
+
   // Draws the tile
   display() {
     push();
-    noStroke();
-    rectMode(CORNER);
     image(this.sprite[this.tileIndex], this.x, this.y, this.size, this.size);
     pop();
   }
