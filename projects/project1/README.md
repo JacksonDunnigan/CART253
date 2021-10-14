@@ -1,3 +1,15 @@
-# Template p5 project
+Lucky Harvest by Jackson Dunnigan
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+Description
+Lucky harvest is an arcade style farming simulator. The objective of this game
+is to keep your plants healthy so they don't transform into monsters. If they do
+transform into monsters, you can stomp on them to revert them back, but don't
+let them hit you. Your score is based on how much corn you collect.
+
+Controls
+W - left
+D - right
+SPACE - jump
+1 - item1
+2 - item2
+SCROLL - switch items

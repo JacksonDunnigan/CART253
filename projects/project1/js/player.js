@@ -49,14 +49,14 @@ class Player {
     // Jumping movement
     if (keyIsDown(32) && this.jump == false && this.yVelocity == 0) {
       this.jump = true;
-      this.yVelocity = - this.terminalYVelocity * 0.75;
+      this.yVelocity = - this.terminalYVelocity;
     }
 
     // Adds acceleration to the velocity
     this.xVelocity += this.direction * this.acceleration;
 
     // Tile collision
-    if (verticalCollision(this.x, this.y + this.yVelocity, this.spriteWidth, this.spriteHeight)){
+    if (verticalCollision(this.x, this.y + this.yVelocity, this.spriteWidth, this.spriteHeight)) {
       if (this.yVelocity >= 0) {
         this.jump = false;
       }
@@ -68,7 +68,6 @@ class Player {
     if (horizontalCollision(this.x + this.xVelocity, this.y,  this.spriteWidth, this.spriteHeight)){
       this.xVelocity = 0;
     }
-
 
     // Adds deceleration to the velocity
     if (this.direction == 0) {

@@ -150,15 +150,12 @@ function mouseWheel() {
 
 // Mouse wheel
 function mousePressed() {
-
-    player.clicked = true;
-
+  player.clicked = true;
 }
 function mouseReleased() {
-
-    player.clicked = false;
-
+  player.clicked = false;
 }
+
 // Title screen
 function title() {
 
@@ -184,13 +181,46 @@ function title() {
 
   // Checks if any key is pressed. If so, the game will start
   if (keyIsPressed === true || mouseIsPressed === true) {
+
     state = 'simulation';
+  }
+}
+
+// Game Over screen
+function gameOver() {
+
+  push();
+  background(61, 30, 48);
+  noSmooth();
+  textAlign(CENTER, CENTER);
+  fill(186, 43, 122);
+  textSize(92);
+  text(`Game Over`, width / 2, height / 2);
+  pop();
+
+  // Resets the game
+  if (mouseIsPressed === true) {
+    state = 'title';
+
+    for (var i = 0; i < crops.length; i++) {
+      crops.splice(i);
+    }
+
+    for (var y = 0; y < tiles.length; y++) {
+      for (var x = 0; x < tiles[y].length; x++) {
+        tiles[y].splice(x);
+      }
+    }
+    setup();
   }
 }
 
 // Main game loop
 function simulation() {
     noSmooth();
+
+    // Draws the barn
+    image(barn, width - tileSize * 4, height - tileSize * 6.5, barn.width * (tileSize / 32), barn.height * (tileSize / 32));
 
     // Draws the tiles
     for (var y = 0; y < tiles.length; y++) {
@@ -207,12 +237,27 @@ function simulation() {
       crops[x].move();
     }
 
-    // Draws the barn
-    image(barn, width - tileSize * 4, height - tileSize * 6.5, barn.width * (tileSize / 32), barn.height * (tileSize / 32));
-
     // Draws the player object
     player.move();
     player.display();
+
+    //collision
+    for (var i = 0; i < crops.length; i++) {
+      if (dist(player.x, player.y + player.yVelocity, crops[i].x, crops[i].y) <= tileSize && crops[i].morphed == true) {
+        if (player.yVelocity > 0) {
+          crops[i].morphed = false;
+          crops[i].growth = 0;
+          crops[i].x = crops[i].startX;
+          crops[i].y = crops[i].startY;
+          crops[i].harvestable = false;
+          crops[i].needsWater = false;
+          player.yVelocity = -player.terminalYVelocity;
+          player.jump = true;
+        } else {
+          state = 'game-over';
+        }
+      }
+    }
 
     // Outlines the current object being held
     push();
@@ -237,8 +282,10 @@ function draw() {
 
   if (state === `title`) {
     title();
-  }
-  else if (state === `simulation`) {
+  } else if (state === `simulation`) {
     simulation();
+  } else if (state === `game-over`) {
+    gameOver();
   }
+
 }
