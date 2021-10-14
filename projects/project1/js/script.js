@@ -20,6 +20,7 @@ let logo;
 let titleGrass;
 let corn;
 let waterAlert;
+let harvestAlert;
 let grass = [];
 let barn;
 let playerSprite = [];
@@ -55,6 +56,7 @@ function preload() {
   // Menu sprites
   logo = loadImage('assets/images/logo.png');
   waterAlert = loadImage('assets/images/water_alert.png');
+  harvestAlert = loadImage('assets/images/harvest_alert.png');
   titleGrass = loadImage('assets/images/title_grass.png');
   buttons[0] = loadImage('assets/images/button1.png');
   buttons[1] = loadImage('assets/images/button2.png');
@@ -92,7 +94,7 @@ function setupScreen() {
 
   // Generates crops
   for (var x = 0; x < 6; x++) {
-    crops.push(new Plant(64 + x * tileSize * 1.25, 9 * tileSize, tileSize));
+    crops.push(new Plant(32 + x * tileSize * 1.4, 9 * tileSize, tileSize));
   }
 
   // Gives each tile the proper sprite
@@ -137,7 +139,26 @@ function horizontalCollision(xx, yy, spriteWidth, spriteHeight) {
   return false;
 }
 
+// Mouse wheel
+function mouseWheel() {
+  if (player.currentObject == 1) {
+    player.currentObject = 2;
+  } else if (player.currentObject == 2) {
+    player.currentObject = 1;
+  }
+}
 
+// Mouse wheel
+function mousePressed() {
+
+    player.clicked = true;
+
+}
+function mouseReleased() {
+
+    player.clicked = false;
+
+}
 // Title screen
 function title() {
 

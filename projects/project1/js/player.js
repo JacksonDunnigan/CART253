@@ -21,19 +21,21 @@ class Player {
     this.spriteHeight = this.size * 2;
 
     // Other variables
+    this.clicked = false;
+    this.score = 0;
     this.currentObject = 1;
   }
+
 
   // Moving and interaction logic
   move() {
 
-    // Switches itemsd
+    // Switches items
     if (keyIsDown(49)) {
       this.currentObject = 1;
     } else if (keyIsDown(50)) {
       this.currentObject = 2;
     }
-
 
     // Keyboard input
     if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
@@ -95,7 +97,7 @@ class Player {
 
     // Adds velocity to the current coordinates
     this.x = constrain(this.x + this.xVelocity, this.size/2, width - this.size/2);
-    this.y += this.yVelocity;//constrain(this.y + this.yVelocity, 0, height);
+    this.y += this.yVelocity;
   }
 
   // Draws the player
@@ -121,6 +123,17 @@ class Player {
         currentSprite = this.sprite[2];
       }
     }
+
+    // Displays score
+    push();
+    strokeWeight(4);
+    stroke(61, 30, 48);
+    fill(255, 255, 255);
+    textAlign(RIGHT);
+    textSize(40);
+    text(`score `+this.score, width * .95, height * .1);
+
+    pop();
 
     // Draws sprite and reflects it when needed
     if (this.xVelocity < 0) {
