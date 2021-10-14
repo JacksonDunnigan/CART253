@@ -12,14 +12,18 @@ let tileSize = 48;
 // Defines objects
 let player;
 let tiles = [];
-let grass = [];
 let crops = [];
-let playerSprite = [];
-let barn;
-let buttons = [];
+
+
+// Defines sprites
 let logo;
 let titleGrass;
 let corn;
+let waterAlert;
+let grass = [];
+let barn;
+let playerSprite = [];
+let buttons = [];
 
 // Defines the font
 let fontPixel;
@@ -30,21 +34,27 @@ let state;
 // Defines stuff before the game starts
 function preload() {
 
+  // Loads the required font
+  fontPixel = loadFont('assets/ArcadeClassic.ttf');
+
   // Loads all the required sprites
   grass[0] = loadImage('assets/images/grass/grass1.png');
   grass[1] = loadImage('assets/images/grass/grass2.png');
   grass[2] = loadImage('assets/images/grass/grass3.png');
 
-  barn = loadImage('assets/images/barn.png');
-  fontPixel = loadFont('assets/ArcadeClassic.ttf');
-
+  // Player sprites
   playerSprite[0] = loadImage('assets/images/player/player_idle_state1.png');
   playerSprite[1] = loadImage('assets/images/player/player_walking_state1.png');
   playerSprite[2] = loadImage('assets/images/player/player_idle_state2.png');
   playerSprite[3] = loadImage('assets/images/player/player_walking_state2.png');
 
+  // Map sprites
+  barn = loadImage('assets/images/barn.png');
   corn = loadImage('assets/images/corn.png');
+
+  // Menu sprites
   logo = loadImage('assets/images/logo.png');
+  waterAlert = loadImage('assets/images/water_alert.png');
   titleGrass = loadImage('assets/images/title_grass.png');
   buttons[0] = loadImage('assets/images/button1.png');
   buttons[1] = loadImage('assets/images/button2.png');
@@ -82,7 +92,7 @@ function setupScreen() {
 
   // Generates crops
   for (var x = 0; x < 6; x++) {
-    crops.push(new Plant(64 + x * tileSize, 9 * tileSize, tileSize, floor(random(2))));
+    crops.push(new Plant(64 + x * tileSize * 1.25, 9 * tileSize, tileSize));
   }
 
   // Gives each tile the proper sprite
@@ -144,6 +154,7 @@ function title() {
   image(corn, width * .05, height * 0.515, tileSize * 1.5, tileSize * 3, 64, 0, 32, 64);
   image(corn, width * .19, height * 0.515, tileSize * 1.5, tileSize * 3, 128, 0, 32, 64);
   image(corn, width * .33, height * 0.515, tileSize * 1.5, tileSize * 3, 32, 0, 32, 64);
+
   // Draws grass
   image(titleGrass, 0, height * 0.667, titleGrass.width * 2.5, titleGrass.height * 2.5);
   image(barn, width * 0.6, height * 0.3 + 6, barn.width * 2.5, barn.height * 2.5);
@@ -172,6 +183,7 @@ function simulation() {
     // Draws the crops
     for (var x = 0; x < crops.length; x++) {
       crops[x].display();
+      crops[x].move();
     }
 
     // Draws the barn
@@ -181,11 +193,10 @@ function simulation() {
     player.move();
     player.display();
 
-    // Outlines the current object
+    // Outlines the current object being held
     push();
     strokeWeight(10);
     stroke(255, 223, 100);
-
     if (player.currentObject == 1) {
       rect(tileSize / 2, tileSize / 2, tileSize * 1.5, tileSize * 1.5, 5);
     } else if (player.currentObject == 2) {

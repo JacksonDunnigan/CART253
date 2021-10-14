@@ -27,7 +27,7 @@ class Player {
   // Moving and interaction logic
   move() {
 
-    // Switches items
+    // Switches itemsd
     if (keyIsDown(49)) {
       this.currentObject = 1;
     } else if (keyIsDown(50)) {
