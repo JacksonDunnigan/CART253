@@ -3,20 +3,27 @@
 let gravityForce = 0.0025;
 
 let paddle;
-
+let maxTimer = 2;
+let timer = maxTimer;
 let balls = [];
-let numBalls = 10;
+let numBalls = 5;
+let currentBalls = 0;
 
 function setup() {
-  createCanvas(windowWidth,windowHeight);
+  createCanvas(700,700);
 
   paddle = new Paddle(300,20);
 
-  for (let i = 0; i < numBalls; i++) {
-    let x = random(0,width);
-    let y = random(-400,-100);
+  addBall();
+}
+
+function addBall() {
+  if (currentBalls < numBalls) {
+    let x = random(100, width - 100);
+    let y = -50;
     let ball = new Ball(x,y);
     balls.push(ball);
+    currentBalls += 1;
   }
 }
 
@@ -25,6 +32,14 @@ function draw() {
 
   paddle.move();
   paddle.display();
+
+  if (frameCount % 60 == 0 && timer > 0) {
+    timer --;
+  }
+  if (timer == 0) {
+    timer = maxTimer;
+    addBall();
+  }
 
   for (let i = 0; i < balls.length; i++) {
     let ball = balls[i];
