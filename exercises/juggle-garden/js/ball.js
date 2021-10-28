@@ -35,6 +35,7 @@ class Ball {
 
     if (this.y - this.size/2 > height && this.active == true) {
       currentBalls -= 1;
+      lives -= 1;
       this.active = false;
     }
   }
