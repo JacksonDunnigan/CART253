@@ -1,3 +1,4 @@
-# Template p5 project
+Super Juggle Mania by Jackson Dunnigan
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+try to juggle balls and avoid bombs!
+achieve a score of 100 to win.
