@@ -6,15 +6,12 @@ class Tile {
     this.size = size;
     this.tileIndex = type;
     this.sprite = spriteSheet;
-
-
   }
 
   // Draws the tile
   display() {
     push();
     image(this.sprite, this.x, this.y, this.size, this.size, this.tileIndex * tileSize, 0, tileSize, tileSize);
-
     pop();
   }
 }

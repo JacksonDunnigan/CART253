@@ -24,6 +24,9 @@ let values = {
   mushroom: 3
 };
 
+// Player variables
+let player;
+
 // Sprites
 let spriteSheet;
 let spriteTree;
@@ -38,6 +41,9 @@ function preload() {
 // Sets up the canvas
 function setup() {
   createCanvas(screenWidth, screenHeight);
+
+  // Creates the player
+  player = new Player(width / 2, height / 2, tileFinalSize);
 
   // Defines the tile and object arrays
   for (var y = 0; y < height / tileFinalSize; y++) {
@@ -90,14 +96,35 @@ function setup() {
 function simulation() {
   noSmooth();
 
+  // Player collision
+  for (var y = 0; y < objects.length; y++) {
+    for (var x = 0; x < objects[y].length; x++) {
+    if (objects[y][x] != null &&
+       player.xCollision(objects[y][x]) == true) {
+        break;
+      }
+    }
+  }
+
+  // Moving tiles
+  if (player.xCollide == false) {
+    for (var y = 0; y < tiles.length; y++) {
+      for (var x = 0; x < tiles[y].length; x++) {
+        if (objects[y][x] != null) {
+            objects[y][x].x -= player.xVelocity;
+            objects[y][x].y -= player.yVelocity;
+          }
+          tiles[y][x].x -= player.xVelocity;
+          tiles[y][x].y -= player.yVelocity;
+      }
+    }
+  }
+
   // Draws the tiles
   for (var y = 0; y < tiles.length; y++) {
     for (var x = 0; x < tiles[y].length; x++) {
       if (tiles[y][x] != null) {
         tiles[y][x].display();
-      }
-      if (objects[y][x] != null) {
-        objects[y][x].display();
       }
     }
   }
@@ -110,6 +137,10 @@ function simulation() {
       }
     }
   }
+
+  // Draws the players
+  player.move();
+  player.display();
 }
 
 // Draws everything on the screen
