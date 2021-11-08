@@ -19,9 +19,10 @@ let tiles = [];
 let objects = [];
 let grid = [];
 let values = {
-  tree: 1,
-  stump: 2,
-  mushroom: 3
+  spawn: 1,
+  tree: 2,
+  stump: 3,
+  mushroom: 4
 };
 
 // Player variables
@@ -44,6 +45,7 @@ function setup() {
 
   // Creates the player
   player = new Player(width / 2, height / 2, tileFinalSize);
+
 
   // Defines the tile and object arrays
   for (var y = 0; y < height / tileFinalSize; y++) {
@@ -80,13 +82,13 @@ function setup() {
       }
 
       // Adds the tree
-      if (floor(random(25)) == 1 && canSpawnTree == true) {
+      if (floor(random(25)) == 1 && canSpawnTree == true && dist(x * tileFinalSize, y * tileFinalSize, player.x, player.y) > tileFinalSize * 5) {
         for (var yy = y; yy < min(y + 4, grid.length); yy++) {
           for (var xx = x; xx < min(x + 3, grid[y].length); xx++) {
             grid[yy][xx] = values.tree;
           }
         }
-        objects[y][x] = new Tree(x * tileFinalSize, y * tileFinalSize, tileFinalSize, 0);
+        objects[y][x] = new Tree(x * tileFinalSize, y * tileFinalSize, 0);
       }
     }
   }
@@ -99,26 +101,37 @@ function simulation() {
   // Player collision
   for (var y = 0; y < objects.length; y++) {
     for (var x = 0; x < objects[y].length; x++) {
-    if (objects[y][x] != null &&
-       player.xCollision(objects[y][x]) == true) {
-        break;
+    if (objects[y][x] != null) {
+      player.xCollision(objects[y][x]);
+      player.yCollision(objects[y][x]);
       }
     }
   }
 
   // Moving tiles
-  if (player.xCollide == false) {
     for (var y = 0; y < tiles.length; y++) {
       for (var x = 0; x < tiles[y].length; x++) {
-        if (objects[y][x] != null) {
+
+        // X collision
+        if (player.xCollide == false) {
+          if (objects[y][x] != null) {
             objects[y][x].x -= player.xVelocity;
-            objects[y][x].y -= player.yVelocity;
+            objects[y][x].bboxX -= player.xVelocity;
           }
           tiles[y][x].x -= player.xVelocity;
+        }
+
+        // Y collision
+        if (player.yCollide == false) {
+          if (objects[y][x] != null) {
+            objects[y][x].y -= player.yVelocity;
+            objects[y][x].bboxY -= player.yVelocity;
+          }
           tiles[y][x].y -= player.yVelocity;
+        }
       }
     }
-  }
+
 
   // Draws the tiles
   for (var y = 0; y < tiles.length; y++) {

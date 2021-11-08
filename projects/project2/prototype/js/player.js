@@ -34,9 +34,9 @@ class Player {
     }
 
 
-    if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
+    if ((keyIsDown(UP_ARROW) || keyIsDown(87)) && this.yCollide == false) {
       this.yDirection = -1;
-    } else if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
+    } else if ((keyIsDown(DOWN_ARROW) || keyIsDown(83)) && this.yCollide == false) {
       this.yDirection = 1;
     } else {
       this.yDirection = 0;
@@ -80,27 +80,14 @@ class Player {
     this.xVelocity = constrain(this.xVelocity, -this.terminalXVelocity, this.terminalXVelocity);
     this.yVelocity = constrain(this.yVelocity, -this.terminalYVelocity, this.terminalYVelocity);
 
-    // Teleports you when you walk off the edge
-    // if (this.x > width && this.direction == 1) {
-    //   this.x = - this.size;
-    //   this.y = Math.floor(this.y / this.size) * this.size - 5;
-    // }
-    // if (this.x < 0 && this.direction == -1) {
-    //   this.x = width;
-    //   this.y = Math.floor(this.y / this.size) * this.size - 5;
-    // }
-
-    // Adds velocity to the current coordinates
-    //this.x += this.xVelocity;
-    //this.y += this.yVelocity;
   }
 
   xCollision(obj) {
     if (this.xDirection != 0 &&
-      this.x + this.size + this.xVelocity >= obj.x &&
-      this.x + this.xVelocity <=  obj.x + obj.size &&
-      this.y + this.yVelocity <= obj.y + obj.size &&
-      this.y + this.size + this.yVelocity >= obj.y) {
+      this.x + this.size + this.xVelocity >= obj.bboxX &&
+      this.x + this.xVelocity <=  obj.bboxX + obj.bboxWidth &&
+      this.y + this.yVelocity <= obj.bboxY + obj.bboxHeight &&
+      this.y + this.size + this.yVelocity >= obj.bboxY) {
       this.xVelocity = 0;
       this.xCollide = true;
       return true;
@@ -112,10 +99,10 @@ class Player {
 
   yCollision(obj) {
     if (this.yDirection != 0 &&
-      this.y + this.size + this.yVelocity >= obj.y &&
-      this.y + this.yVelocity <=  obj.y + obj.size &&
-      this.x + this.yVelocity <= obj.x + obj.size &&
-      this.x + this.size + this.xVelocity >= obj.y) {
+      this.y + this.size + this.yVelocity >= obj.bboxY &&
+      this.y + this.yVelocity <=  obj.bboxY + obj.bboxHeight &&
+      this.x + this.xVelocity <= obj.bboxX + obj.bboxWidth &&
+      this.x + this.size + this.xVelocity >= obj.bboxX) {
       this.yVelocity = 0;
       this.yCollide = true;
       return true;
