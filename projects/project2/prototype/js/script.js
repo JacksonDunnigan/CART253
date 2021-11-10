@@ -62,17 +62,18 @@ function setup() {
     }
   }
 
-
-  for (var y = mapSize / 2 + 5; y < mapSize / 2 + 10; y++) {
-    for (var x = mapSize / 2 + 5; x < mapSize / 2 + 10; x++) {
-      grid[x][y] = values.spawn;
+  // Creates a spawn barrier
+  var tempMap = mapSize / 2 + floor(width / tileFinalSize) / 2;
+  for (var y = tempMap - 10; y < tempMap - 5; y++) {
+    for (var x = tempMap - 10; x < tempMap - 5; x++) {
+      grid[y][x] = values.spawn;
     }
   }
 
   // Generates tiles
   for (var y = 0; y < mapSize; y++) {
     for (var x = 0; x < mapSize; x++) {
-      tiles[y][x] = new Tile((x - (mapSize/2)) * tileFinalSize , (y - (mapSize/2)) * tileFinalSize, tileFinalSize, floor(random(8)));
+      tiles[y][x] = new Tile((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, tileFinalSize, floor(random(8)));
     }
   }
 
@@ -87,7 +88,7 @@ function setup() {
 
         // Checks if the area is free to spawn a stump
         var canSpawnStump = true;
-        for (var yy = y; yy < y + 1; yy++) {
+        for (var yy = y; yy < y + 2; yy++) {
           for (var xx = x; xx < x + 5; xx++) {
             if (yy >= grid.length || xx >= grid[y].length || grid[yy][xx] != null) {
               canSpawnStump = false;
@@ -97,12 +98,12 @@ function setup() {
         }
         // Adds the stump
         if (floor(random(35)) == 1 && canSpawnStump == true && dist(x * tileFinalSize, y * tileFinalSize, player.x, player.y) > tileFinalSize * 5) {
-          for (var yy = y; yy < min(y + 1, grid.length); yy++) {
+          for (var yy = y; yy < min(y + 2, grid.length); yy++) {
             for (var xx = x; xx < min(x + 5, grid[y].length); xx++) {
               grid[yy][xx] = values.stump;
             }
           }
-          objects[y][x] = new Stump((x - (mapSize/2)) * tileFinalSize, (y - (mapSize/2)) * tileFinalSize, floor(random(5)));
+          objects[y][x] = new Stump((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, floor(random(5)));
         }
 
       // Adds trees
@@ -126,7 +127,7 @@ function setup() {
               grid[yy][xx] = values.tree;
             }
           }
-          objects[y][x] = new Tree((x - (mapSize/2)) * tileFinalSize, (y - (mapSize/2)) * tileFinalSize, 0);
+          objects[y][x] = new Tree((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, 0);
         }
       }
     }
@@ -187,6 +188,13 @@ function simulation() {
   // Draws the objects
   for (var y = 0; y < tiles.length; y++) {
     for (var x = 0; x < tiles[y].length; x++) {
+
+      // if (grid[y][x] == values.spawn) {
+      //   push();
+      //   fill(255);
+      //   rect((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, tileSize, tileSize);
+      //   pop();
+      // }
       if (objects[y][x] != null) {
         if (player.y + player.size <= objects[y][x].bboxY + objects[y][x].bboxHeight &&
           player.y + player.size >= objects[y][x].y &&
