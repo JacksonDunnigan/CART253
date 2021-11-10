@@ -23,12 +23,14 @@ class Tree extends Objects {
    constructor(x, y, type) {
      super(x, y, type);
      this.bboxWidth = tileFinalSize * .45;
-     this.bboxHeight = tileFinalSize * 1.5;
+     this.bboxHeight = tileFinalSize / 3;
      this.bboxX = this.x + tileSize * tileScale * 1.3;
-     this.bboxY = this.y + tileSize * tileScale * 2;
+     this.bboxY = this.y + tileSize * tileScale * 3.25;
+     this.sprite = spriteTree
    }
+
   display() {
-    image(spriteTree, this.x, this.y, spriteTree.width * tileScale, spriteTree.height * tileScale);
+    image(this.sprite, this.x, this.y, this.sprite.width * tileScale, this.sprite.height * tileScale);
     // push();
     // fill(204, 101, 192);
     // stroke(127, 63, 120);

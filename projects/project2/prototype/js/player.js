@@ -99,10 +99,10 @@ class Player {
 
   yCollision(obj) {
     if (this.yDirection != 0 &&
-      this.y + this.size + this.yVelocity >= obj.bboxY &&
+      this.y + this.size + this.yVelocity * 2 >= obj.bboxY &&
       this.y + this.yVelocity <=  obj.bboxY + obj.bboxHeight &&
       this.x + this.xVelocity <= obj.bboxX + obj.bboxWidth &&
-      this.x + this.size + this.xVelocity >= obj.bboxX) {
+      this.x + this.size + this.xVelocity * 2 >= obj.bboxX) {
       this.yVelocity = 0;
       this.yCollide = true;
       return true;

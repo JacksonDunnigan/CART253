@@ -132,7 +132,6 @@ function simulation() {
       }
     }
 
-
   // Draws the tiles
   for (var y = 0; y < tiles.length; y++) {
     for (var x = 0; x < tiles[y].length; x++) {
@@ -142,18 +141,29 @@ function simulation() {
     }
   }
 
+  // Draws the players
+  player.move();
+  var playerDraw = false;
+
   // Draws the objects
   for (var y = 0; y < tiles.length; y++) {
     for (var x = 0; x < tiles[y].length; x++) {
       if (objects[y][x] != null) {
+        if (player.y + player.size <= objects[y][x].bboxY + objects[y][x].bboxHeight &&
+          player.y + player.size >= objects[y][x].y &&
+          player.x + player.size >= objects[y][x].x &&
+          player.x <= objects[y][x].x + objects[y][x].sprite.width * tileScale) {
+          player.display();
+          playerDraw = true;
+        }
         objects[y][x].display();
+
       }
     }
   }
-
-  // Draws the players
-  player.move();
-  player.display();
+  if (playerDraw == false){
+    player.display();
+  }
 }
 
 // Draws everything on the screen
