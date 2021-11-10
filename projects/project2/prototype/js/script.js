@@ -13,7 +13,7 @@ let screenHeight = 800;
 let tileSize = 16
 let tileScale = 4;
 let tileFinalSize = tileSize * tileScale;
-let mapSize = 32;
+let mapSize = 64;
 
 // Generation variables
 let tiles = [];
@@ -83,32 +83,13 @@ function setup() {
 
       var currentObject = floor(random(2));
 
-      // Adds the stump
-      if (currentObject == 0) {
+      // Tree spawning
+      if (currentObject == 0 || x == 0 || y == 0) {
 
-        // Checks if the area is free to spawn a stump
-        var canSpawnStump = true;
-        for (var yy = y; yy < y + 2; yy++) {
-          for (var xx = x; xx < x + 5; xx++) {
-            if (yy >= grid.length || xx >= grid[y].length || grid[yy][xx] != null) {
-              canSpawnStump = false;
-              break;
-            }
-          }
+        // Adds trees on the edges
+        if ((y == 0) || (x == 0 && y % 2 == 0)) {
+          objects[y][x] = new Tree((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - 3 - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, 0);
         }
-        // Adds the stump
-        if (floor(random(35)) == 1 && canSpawnStump == true && dist(x * tileFinalSize, y * tileFinalSize, player.x, player.y) > tileFinalSize * 5) {
-          for (var yy = y; yy < min(y + 2, grid.length); yy++) {
-            for (var xx = x; xx < min(x + 5, grid[y].length); xx++) {
-              grid[yy][xx] = values.stump;
-            }
-          }
-          objects[y][x] = new Stump((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, floor(random(5)));
-        }
-
-      // Adds trees
-      } else if (currentObject == 1) {
-
         // Checks if the area is free to spawn a tree
         var canSpawnTree = true;
         for (var yy = y; yy < y + 4; yy++) {
@@ -120,14 +101,40 @@ function setup() {
           }
         }
 
-        // Adds the tree
-        if (floor(random(25)) == 1 && canSpawnTree == true && dist(x * tileFinalSize, y * tileFinalSize, player.x, player.y) > tileFinalSize * 5) {
+
+
+        // Adds the tree normally
+        if (floor(random(25)) == 1 && canSpawnTree == true && dist(x * tileFinalSize, y * tileFinalSize, player.x, player.y) > tileFinalSize * 5 ) {
           for (var yy = y; yy < min(y + 4, grid.length); yy++) {
             for (var xx = x; xx < min(x + 3, grid[y].length); xx++) {
               grid[yy][xx] = values.tree;
             }
           }
           objects[y][x] = new Tree((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, 0);
+        }
+      }
+
+      // Log spawning
+      else if (currentObject == 1) {
+
+        // Checks if the area is free to spawn a log
+        var canSpawnStump = true;
+        for (var yy = y; yy < y + 2; yy++) {
+          for (var xx = x; xx < x + 5; xx++) {
+            if (yy >= grid.length || xx >= grid[y].length || grid[yy][xx] != null) {
+              canSpawnStump = false;
+              break;
+            }
+          }
+        }
+        // Adds the log
+        if (floor(random(35)) == 1 && canSpawnStump == true && dist(x * tileFinalSize, y * tileFinalSize, player.x, player.y) > tileFinalSize * 5) {
+          for (var yy = y; yy < min(y + 2, grid.length); yy++) {
+            for (var xx = x; xx < min(x + 5, grid[y].length); xx++) {
+              grid[yy][xx] = values.stump;
+            }
+          }
+          objects[y][x] = new Stump((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, floor(random(3)));
         }
       }
     }
@@ -139,6 +146,7 @@ function setup() {
 function simulation() {
   noSmooth();
 
+  background(30, 108, 82);
   // Player collision
   for (var y = 0; y < objects.length; y++) {
     for (var x = 0; x < objects[y].length; x++) {
@@ -214,6 +222,5 @@ function simulation() {
 
 // Draws everything on the screen
 function draw() {
-  background(51, 152, 76);
   simulation();
 }
