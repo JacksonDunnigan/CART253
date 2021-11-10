@@ -42,22 +42,17 @@ class Player {
       this.yDirection = 0;
     }
 
+    // Border collision
+    if (this.x > (mapSize * tileSize * tileScale) / 2) {
+      this.xDirection = 0;
+    }
+
     // Adds acceleration to the velocity
     this.xVelocity += this.xDirection * this.acceleration;
     this.yVelocity += this.yDirection * this.acceleration;
 
-    // Tile collision
-    // if (floor(this.x / , )
-    // if (verticalCollision(this.x, this.y + this.yVelocity, this.spriteWidth, this.spriteHeight)) {
-    //   this.yVelocity = 0;
-    // }
-    //
-    // if (horizontalCollision(this.x + this.xVelocity, this.y,  this.spriteWidth, this.spriteHeight)) {
-    //   this.xVelocity = 0;
-    // }
-
     // Adds deceleration to the velocity
-    if (this.xDirection == 0) {
+    if (this.xDirection == 0 && this.xCollide == false) {
       if (this.xVelocity > this.acceleration) {
         this.xVelocity -= this.acceleration;
       } else if (this.xVelocity < -this.acceleration) {
@@ -67,7 +62,7 @@ class Player {
       }
     }
 
-    if (this.yDirection == 0) {
+    if (this.yDirection == 0 && this.yCollide == false) {
       if (this.yVelocity > this.acceleration) {
         this.yVelocity -= this.acceleration;
       } else if (this.yVelocity < -this.acceleration) {

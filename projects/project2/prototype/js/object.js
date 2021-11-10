@@ -31,11 +31,24 @@ class Tree extends Objects {
 
   display() {
     image(this.sprite, this.x, this.y, this.sprite.width * tileScale, this.sprite.height * tileScale);
-    // push();
-    // fill(204, 101, 192);
-    // stroke(127, 63, 120);
-    // rect(this.bboxX, this.bboxY, this.bboxWidth, this.bboxHeight);
-    // pop();
 
+  }
+}
+
+// Stump objects
+class Stump extends Objects {
+   constructor(x, y, type) {
+     super(x, y, type);
+
+     this.sprite = spriteStump;
+     this.bboxWidth = this.sprite.width * tileScale - tileSize * 2;
+     this.bboxHeight = tileSize;
+     this.bboxX = this.x + tileSize;
+     this.bboxY = this.y + tileSize * 2;
+     this.tileIndex = type;
+   }
+
+  display() {
+    image(this.sprite, this.x, this.y, this.sprite.width * tileScale, (this.sprite.height * tileScale) / 4, 0, this.tileIndex * tileSize, this.sprite.width, this.sprite.width / 4);
   }
 }
