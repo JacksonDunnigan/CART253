@@ -198,7 +198,9 @@ function simulation() {
         }
 
         // Draws the tiles
-        if (tiles[y][x] != null) {
+        if (tiles[y][x] != null
+          && tiles[y][x].x + tileFinalSize > 0 && tiles[y][x].x < width
+          && tiles[y][x].y + tileFinalSize > 0 && tiles[y][x].y < height) {
           tiles[y][x].display();
         }
       }
@@ -215,7 +217,9 @@ function simulation() {
   for (var y = 0; y < tiles.length; y++) {
     for (var x = 0; x < tiles[y].length; x++) {
 
-      if (objects[y][x] != null) {
+      if (objects[y][x] != null
+        && objects[y][x].x + objects[y][x].sprite.width * tileScale > 0 && objects[y][x].x < width
+        && objects[y][x].y + objects[y][x].sprite.height * tileScale > 0 && objects[y][x].y < height) {
         if (player.y + player.size <= objects[y][x].bboxY + objects[y][x].bboxHeight &&
           player.y + player.size >= objects[y][x].y &&
           player.x + player.size >= objects[y][x].x &&
@@ -223,6 +227,7 @@ function simulation() {
           player.display();
           playerDraw = true;
         }
+
         objects[y][x].display();
       }
     }
