@@ -41,6 +41,8 @@ class Log extends Objects {
    constructor(x, y, type) {
      super(x, y, type);
      this.sprite = spriteLog;
+     this.bboxX = this.x + tileSize;
+     this.bboxY = this.y;
      this.bboxWidth = this.sprite.width * tileScale - tileSize * 2;
    }
 

@@ -8,19 +8,22 @@ class Player {
     this.xVelocity = 0;
     this.yVelocity = 0;
     this.acceleration = 0.25;
-    this.terminalXVelocity = 3;
-    this.terminalYVelocity = 3;
+    this.terminalXVelocity = 3.5;
+    this.terminalYVelocity = 3.5;
     this.xDirection = 0;
     this.yDirection = 0;
-    //this.xCollide = false;
-    //this.yCollide = false;
+    this.xCollide = false;
+    this.yCollide = false;
 
     // Visual variables
     this.sprite = spritePlayer;
-
-    this.size = this.sprite.width * tileScale /2;
-    this.spriteWidth = this.sprite.width * tileScale;
-    this.spriteHeight = this.sprite.height * tileScale;
+    this.tileIndex = 0;
+    this.state = 0;
+    this.frameSpeed = 16;
+    this.timer = 0;
+    this.size = this.sprite.width * tileScale / 8;
+    this.spriteWidth = this.sprite.width * tileScale / 4;
+    this.spriteHeight = this.sprite.height * tileScale / 2;
   }
 
 
@@ -31,7 +34,7 @@ class Player {
 
     // Keyboard input
 
-    if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){// && this.xCollide == false) {
+    if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ // && this.xCollide == false) {
       this.xDirection = 1;
     } else if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){ //&& this.xCollide == false) {
       this.xDirection = -1;
@@ -40,7 +43,7 @@ class Player {
     }
 
 
-    if (keyIsDown(UP_ARROW) || keyIsDown(87)) {// && this.yCollide == false) {
+    if (keyIsDown(UP_ARROW) || keyIsDown(87)) { // && this.yCollide == false) {
       this.yDirection = -1;
     } else if (keyIsDown(DOWN_ARROW) || keyIsDown(83)){ //&& this.yCollide == false) {
       this.yDirection = 1;
@@ -49,8 +52,13 @@ class Player {
     }
 
     // Adds acceleration to the velocity
-    this.xVelocity += this.xDirection * this.acceleration;
-    this.yVelocity += this.yDirection * this.acceleration;
+    if (this.xCollide == false) {
+      this.xVelocity += this.xDirection * this.acceleration;
+    }
+
+    if (this.yCollide == false) {
+      this.yVelocity += this.yDirection * this.acceleration;
+    }
 
     // Adds deceleration to the velocity
     if (this.xDirection == 0) {
@@ -82,28 +90,28 @@ class Player {
     if (this.xDirection != 0 &&
       this.x + this.size / 2 + this.xVelocity >= obj.bboxX &&
       this.x - this.size / 2 + this.xVelocity <=  obj.bboxX + obj.bboxWidth &&
-      this.y - this.size / 2 + this.yVelocity <= obj.bboxY + obj.bboxHeight &&
+      this.y  + this.yVelocity <= obj.bboxY + obj.bboxHeight &&
       this.y + this.size / 2 + this.yVelocity >= obj.bboxY) {
       this.xVelocity = 0;
-      //this.xCollide = true;
+      this.xCollide = true;
       return true;
     }
 
-    //this.xCollide = false;
+    this.xCollide = false;
     return false;
   }
 
   yCollision(obj) {
     if (this.yDirection != 0 &&
-      this.y + this.size + this.yVelocity * 2 >= obj.bboxY &&
-      this.y + this.yVelocity <=  obj.bboxY + obj.bboxHeight &&
-      this.x + this.xVelocity <= obj.bboxX + obj.bboxWidth &&
-      this.x + this.size + this.xVelocity * 2 >= obj.bboxX) {
+      this.y + this.size / 2 + this.yVelocity >= obj.bboxY &&
+      this.y  + this.yVelocity <=  obj.bboxY + obj.bboxHeight &&
+      this.x - this.size / 2 + this.xVelocity <= obj.bboxX + obj.bboxWidth &&
+      this.x + this.size / 2 + this.xVelocity >= obj.bboxX) {
       this.yVelocity = 0;
-      //this.yCollide = true;
+      this.yCollide = true;
       return true;
     }
-    //this.yCollide = false;
+    this.yCollide = false;
     return false;
 
   }
@@ -114,8 +122,51 @@ class Player {
     push();
     noSmooth();
     imageMode(CENTER);
-    image(this.sprite, this.x, this.y, this.spriteWidth, this.spriteHeight);
-    //rect(this.x, this.y, this.size, this.size);
+
+    // Switching between idle and moving states
+
+    // Moving
+    if (this.xVelocity == 0 && this.yVelocity == 0) {
+
+      // Resets the timer when switching states
+      if (this.state == 1) {
+        this.state = 0;
+        this.timer = 0;
+      }
+
+      this.frameSpeed = 16;
+
+    // Idle
+    } else {
+
+      // Resets the timer when switching states
+      if (this.state == 0) {
+        this.state = 1;
+        this.timer = 0;
+      }
+
+      this.frameSpeed = 11;//floor(this.xVelocity)*5;
+    }
+
+    // Switches the current frame
+    this.timer += 1;
+    if (this.timer % this.frameSpeed == 0) {
+      this.tileIndex += 1;
+      if (this.tileIndex > 3) {
+        this.tileIndex = 0;
+      }
+    }
+
+    // Draws the sprite
+    if (this.xVelocity < 0) {
+      push();
+      scale(-1, 1);
+      image(this.sprite, -this.x, this.y, this.spriteWidth, this.spriteHeight, this.tileIndex * this.spriteWidth/4, this.state * this.spriteHeight/4, this.spriteWidth/4, this.spriteHeight/4);
+      pop();
+    } else if (this.xVelocity >= 0) {
+      image(this.sprite, this.x, this.y, this.spriteWidth, this.spriteHeight, this.tileIndex * this.spriteWidth/4, this.state * this.spriteHeight/4, this.spriteWidth/4, this.spriteHeight/4);
+    }
+
     pop();
   }
 }
