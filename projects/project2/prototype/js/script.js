@@ -22,23 +22,33 @@ let grid = [];
 let values = {
   spawn: 1,
   tree: 2,
-  stump: 3,
-  mushroom: 4
+  log: 3,
+  stump: 4,
+  mushroom: 5
 };
 
 // Player variables
 let player;
+let shadow;
 
 // Sprites
-let spriteSheet;
+let spriteGrass;
 let spriteTree;
+let spriteLog;
 let spriteStump;
+let spriteRock;
+let spritePlayer;
+let spriteShadow;
 
 // Preloads sprites and audio
 function preload() {
-  spriteSheet = loadImage('assets/images/sprite_sheet.png');
+  spriteGrass = loadImage('assets/images/grass.png');
   spriteTree = loadImage('assets/images/tree.png');
   spriteStump = loadImage('assets/images/stump.png');
+  spriteLog = loadImage('assets/images/log.png');
+  spriteRock = loadImage('assets/images/rock.png');
+  spritePlayer = loadImage('assets/images/player.png');
+  spriteShadow = loadImage('assets/images/shadow.png');
 }
 
 
@@ -47,7 +57,8 @@ function setup() {
   createCanvas(screenWidth, screenHeight);
 
   // Creates the player
-  player = new Player(width / 2, height / 2, tileFinalSize);
+  player = new Player(width / 2, height / 2);
+  shadow = new Shadow(width / 2, height / 2);
 
 
   // Defines the tile and object arrays
@@ -70,89 +81,95 @@ function setup() {
     }
   }
 
-  // Generates tiles
+  // Generates the map
   for (var y = 0; y < mapSize; y++) {
     for (var x = 0; x < mapSize; x++) {
+
+      //Generates tiles
       tiles[y][x] = new Tile((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, tileFinalSize, floor(random(8)));
-    }
-  }
 
-  // Generates trees and stumps
-  for (var y = 0; y < mapSize; y++) {
-    for (var x = 0; x < mapSize; x++) {
+      var currentObject = floor(random(4));
 
-      var currentObject = floor(random(2));
+      // Adds rocks on the edges
+      if ((y == 0 && x % 2 == 0) || (x == 0 ) ||
+      (x == mapSize - 2) || (x % 2 == 0 && y == mapSize - 1)) {
+        objects[y][x] = new Rock((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, 0);
+        fillGrid(x, y, 2, 2, values.tree);
+      }
 
       // Tree spawning
-      if (currentObject == 0 || x == 0 || y == 0) {
-
-        // Adds trees on the edges
-        if ((y == 0) || (x == 0 && y % 2 == 0)) {
-          objects[y][x] = new Tree((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - 3 - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, 0);
-        }
-        // Checks if the area is free to spawn a tree
-        var canSpawnTree = true;
-        for (var yy = y; yy < y + 4; yy++) {
-          for (var xx = x; xx < x + 3; xx++) {
-            if (yy >= grid.length || xx >= grid[y].length || grid[yy][xx] != null) {
-              canSpawnTree = false;
-              break;
-            }
-          }
-        }
-
-
-
-        // Adds the tree normally
-        if (floor(random(25)) == 1 && canSpawnTree == true && dist(x * tileFinalSize, y * tileFinalSize, player.x, player.y) > tileFinalSize * 5 ) {
-          for (var yy = y; yy < min(y + 4, grid.length); yy++) {
-            for (var xx = x; xx < min(x + 3, grid[y].length); xx++) {
-              grid[yy][xx] = values.tree;
-            }
-          }
+      else if (currentObject == 0 || x == 0 || y == 0 || x == mapSize - 2 || y == mapSize - 1) {
+        if (canSpawn(x, y, 3, 4, 25)) {
+          fillGrid(x, y, 3, 4, values.tree);
           objects[y][x] = new Tree((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, 0);
         }
       }
 
       // Log spawning
       else if (currentObject == 1) {
-
-        // Checks if the area is free to spawn a log
-        var canSpawnStump = true;
-        for (var yy = y; yy < y + 2; yy++) {
-          for (var xx = x; xx < x + 5; xx++) {
-            if (yy >= grid.length || xx >= grid[y].length || grid[yy][xx] != null) {
-              canSpawnStump = false;
-              break;
-            }
-          }
+        if (canSpawn(x, y, 5, 2, 35)) {
+          fillGrid(x, y, 5, 2, values.log);
+          objects[y][x] = new Log((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, floor(random(3)));
         }
-        // Adds the log
-        if (floor(random(35)) == 1 && canSpawnStump == true && dist(x * tileFinalSize, y * tileFinalSize, player.x, player.y) > tileFinalSize * 5) {
-          for (var yy = y; yy < min(y + 2, grid.length); yy++) {
-            for (var xx = x; xx < min(x + 5, grid[y].length); xx++) {
-              grid[yy][xx] = values.stump;
-            }
-          }
-          objects[y][x] = new Stump((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, floor(random(3)));
+      }
+
+      // Stump spawning
+      else if (currentObject == 2) {
+        if (canSpawn(x, y, 2, 1, 35)) {
+          fillGrid(x, y, 2, 1, values.stump);
+          objects[y][x] = new Stump((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, 0);
+        }
+      }
+
+      // Rock spawning
+      else if (currentObject == 3) {
+        if (canSpawn(x, y, 3, 3, 35)) {
+          fillGrid(x, y, 3, 3, values.rock);
+          objects[y][x] = new Rock((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, 0);
         }
       }
     }
   }
 }
 
+// Fills the grid with values for object spawning
+function fillGrid(x, y, w, h, value){
+  for (var yy = y; yy < min(y + h, grid.length); yy++) {
+    for (var xx = x; xx < min(x + w, grid[y].length); xx++) {
+      grid[yy][xx] = values;
+    }
+  }
+}
+
+// Checks if a given area is spawnable for objects
+function canSpawn(x, y, w, h, chance) {
+  for (var yy = y; yy < y + h; yy++) {
+    for (var xx = x; xx < x + w; xx++) {
+      if (yy >= grid.length || xx >= grid[y].length || grid[yy][xx] != null) {
+        return false;
+      }
+    }
+  }
+  if (floor(random(chance)) == 1) {
+    return true;
+  }
+}
 
 // Main game loop
 function simulation() {
   noSmooth();
+  background(51, 152, 76);
 
-  background(30, 108, 82);
+
+
   // Player collision
+  var xCollide = false;
+  var yCollide = false;
   for (var y = 0; y < objects.length; y++) {
     for (var x = 0; x < objects[y].length; x++) {
       if (objects[y][x] != null) {
-        player.xCollision(objects[y][x]);
-        player.yCollision(objects[y][x]);
+        xCollide = player.xCollision(objects[y][x]);
+        yCollide = player.yCollision(objects[y][x]);
       }
     }
   }
@@ -163,7 +180,7 @@ function simulation() {
 
 
         // X collision
-        if (player.xCollide == false) {
+        if (xCollide == false) {
           if (objects[y][x] != null) {
             objects[y][x].x -= player.xVelocity;
             objects[y][x].bboxX -= player.xVelocity;
@@ -172,7 +189,7 @@ function simulation() {
         }
 
         // Y collision
-        if (player.yCollide == false) {
+        if (yCollide == false) {
           if (objects[y][x] != null) {
             objects[y][x].y -= player.yVelocity;
             objects[y][x].bboxY -= player.yVelocity;
@@ -191,18 +208,13 @@ function simulation() {
 
   // Draws the players
   player.move();
+  shadow.display();
   var playerDraw = false;
 
   // Draws the objects
   for (var y = 0; y < tiles.length; y++) {
     for (var x = 0; x < tiles[y].length; x++) {
 
-      // if (grid[y][x] == values.spawn) {
-      //   push();
-      //   fill(255);
-      //   rect((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, tileSize, tileSize);
-      //   pop();
-      // }
       if (objects[y][x] != null) {
         if (player.y + player.size <= objects[y][x].bboxY + objects[y][x].bboxHeight &&
           player.y + player.size >= objects[y][x].y &&
@@ -215,7 +227,7 @@ function simulation() {
       }
     }
   }
-  if (playerDraw == false){
+  if (playerDraw == false) {
     player.display();
   }
 }

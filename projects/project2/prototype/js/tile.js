@@ -5,7 +5,7 @@ class Tile {
     this.y = y;
     this.size = size;
     this.tileIndex = type;
-    this.sprite = spriteSheet;
+    this.sprite = spriteGrass;
   }
 
   // Draws the tile
