@@ -42,7 +42,7 @@ class Log extends Objects {
      super(x, y, type);
      this.sprite = spriteLog;
      this.bboxX = this.x + tileSize;
-     this.bboxY = this.y;
+     this.bboxY = this.y - tileSize /2;
      this.bboxWidth = this.sprite.width * tileScale - tileSize * 2;
    }
 
@@ -56,6 +56,7 @@ class Stump extends Objects {
    constructor(x, y, type) {
      super(x, y, type);
      this.sprite = spriteStump;
+     this.bboxY = this.y + tileSize ;
      this.bboxWidth = this.sprite.width * tileScale - tileSize * 2;
 
    }

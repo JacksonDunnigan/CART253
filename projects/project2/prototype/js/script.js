@@ -13,7 +13,7 @@ let screenHeight = 800;
 let tileSize = 16
 let tileScale = 4;
 let tileFinalSize = tileSize * tileScale;
-let mapSize = 64;
+let mapSize = 256;
 
 // Generation variables
 let tiles = [];
@@ -39,6 +39,8 @@ let spriteStump;
 let spriteRock;
 let spritePlayer;
 let spriteShadow;
+let spriteBook;
+let spriteMushroom;
 
 // Preloads sprites and audio
 function preload() {
@@ -49,6 +51,8 @@ function preload() {
   spriteRock = loadImage('assets/images/rock.png');
   spritePlayer = loadImage('assets/images/player.png');
   spriteShadow = loadImage('assets/images/shadow.png');
+  spriteMushroom = loadImage('assets/images/mushrooms.png');
+  spriteBook = loadImage('assets/images/book.png');
 }
 
 
@@ -99,7 +103,7 @@ function setup() {
 
       // Tree spawning
       else if (currentObject == 0 || x == 0 || y == 0 || x == mapSize - 2 || y == mapSize - 1) {
-        if (canSpawn(x, y, 3, 4, 25)) {
+        if (canSpawn(x, y, 3, 4, 15)) {
           fillGrid(x, y, 3, 4, values.tree);
           objects[y][x] = new Tree((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, 0);
         }
@@ -115,7 +119,7 @@ function setup() {
 
       // Stump spawning
       else if (currentObject == 2) {
-        if (canSpawn(x, y, 2, 1, 35)) {
+        if (canSpawn(x, y, 2, 1, 50)) {
           fillGrid(x, y, 2, 1, values.stump);
           objects[y][x] = new Stump((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, 0);
         }
@@ -220,10 +224,10 @@ function simulation() {
       if (objects[y][x] != null
         && objects[y][x].x + objects[y][x].sprite.width * tileScale > 0 && objects[y][x].x < width
         && objects[y][x].y + objects[y][x].sprite.height * tileScale > 0 && objects[y][x].y < height) {
-        if (player.y + player.size <= objects[y][x].bboxY + objects[y][x].bboxHeight &&
-          player.y + player.size >= objects[y][x].y &&
-          player.x + player.size >= objects[y][x].x &&
-          player.x <= objects[y][x].x + objects[y][x].sprite.width * tileScale) {
+        if (player.y + player.size / 2 <= objects[y][x].bboxY + objects[y][x].bboxHeight &&
+          player.y + player.size / 2 >= objects[y][x].y &&
+          player.x + player.size / 2 >= objects[y][x].x &&
+          player.x - player.size / 2 <= objects[y][x].x + objects[y][x].sprite.width * tileScale) {
           player.display();
           playerDraw = true;
         }
@@ -235,9 +239,14 @@ function simulation() {
   if (playerDraw == false) {
     player.display();
   }
+
+  // User interface
+  image(spriteBook, width - (spriteBook.width * tileScale * 2), height - (spriteBook.height * tileScale * 1.65), spriteBook.width * tileScale, spriteBook.height * tileScale);
+
 }
 
 // Draws everything on the screen
 function draw() {
   simulation();
+
 }
