@@ -10,6 +10,7 @@ class Objects {
     this.bboxY = this.y + tileSize * 2;
     this.tileIndex = type;
     this.objectType = 'object';
+    this.canSpawnMushrooms = false;
   }
 
   // Draws the tile
@@ -28,11 +29,35 @@ class Tree extends Objects {
      this.bboxHeight = tileFinalSize / 3;
      this.bboxX = this.x + tileSize * tileScale * 1.3;
      this.bboxY = this.y + tileSize * tileScale * 3.25;
-   }
+     this.mushrooms = [];
+     this.canSpawnMushrooms = true;
+
+     // Creates mushrooms on the tree
+     //if (floor(random(0)) == 0) {
+       var mushroomAmount = floor(random(1,5));
+
+       var tempGenus = floor(random(3, 9));
+
+       var tempSpecies = floor(random(mushroomSpecies[tempGenus].length));
+       for (var i = 0; i < mushroomAmount; i++) {
+         // Adds the mushroom and gives it a classification
+         this.mushrooms.push(new Mushroom(this.bboxX,
+           this.bboxY + i * 8 * random([-1,1]), tempGenus, tempSpecies));
+         }
+       //}
+     }
+
+  // move() {
+  //   this.mushrooms[i].x -= player.xVelocity;
+  //   this.mushrooms[i].y -= player.yVelocity;
+  // }
 
   display() {
     image(this.sprite, this.x, this.y, this.sprite.width * tileScale, this.sprite.height * tileScale);
+    for (var i = 0; i < this.mushrooms.length; i++) {
 
+      this.mushrooms[i].display();
+    }
   }
 }
 

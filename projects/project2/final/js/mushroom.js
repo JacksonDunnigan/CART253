@@ -1,22 +1,9 @@
 
-// let mushroomFamilies = {
-//   pleurotaceae: 0,
-//   amanita: 1,
-//   agaricus: 2,
-//   cantharellus: 3,
-//   fomitopsidaceae: 4,
-//   hericiaceae: 5,
-//   polyporaceae: 6,
-//   physalacriaceae: 7,
-//   marasmiaceae: 8,
-//   meripilaceae: 9,
-// };
 
 
 let mushroomSpecies = [["Amanita", ["Muscaria", "Fly Agaric"], ["Guessowii", "Yellow Fly Agaric"], ["Pantherina", "Panther Cap"], ["Phalloides", "Death Cap"], ["Virosa", "Destroying Angel"]],
                       ["Agaricus", ["Bisporus", "Button Mushroom"], ["Arvensis", "Horse Mushroom"], ["Campestris", "Field Mushroom"]],
                       ["Cantharellus", ["Cibarius", "Golden Chantrelle"]],
-                      ["Hygrophoropsidaceae", ["Hygrophoropsis Aurantiaca", "False Chantrelle"]],
                       ["Pleurotus", ["Ostreatus", "Pearl Oyster"], ["Djamor", "Pink Oyster"], ["Columbinus", "Blue Oyster"], ["Citrinopileatus", "Golden Oyster"]],
                       ["Marasmiaceae", ["Omphalotus Olearius", "Jack-O-Lantern"]],
                       ["Physalacriaceae", ["Armillaria", "Honey Fungus"]],
@@ -32,8 +19,8 @@ class Mushroom extends Objects {
     super(x, y, genus);
 
     // Adds a random offset to the mushrooms
-    this.x = x + random(-16, 16);
-    this.y = y + random(-16, 16);
+    this.x = x + floor(random(-8, 8));
+    this.y = y + floor(random(-8, 8));
 
     // Stores the species name
     this.genus = genus;
@@ -46,7 +33,7 @@ class Mushroom extends Objects {
     this.spriteSize = 8 * tileScale;
     this.objectType = 'mushroom';
 
-    // Stories species name
+    // Stores species names
     this.genusName = mushroomSpecies[this.genus][0];
     this.speciesName = mushroomSpecies[this.genus][this.species][0];
     this.commonName = mushroomSpecies[this.genus][this.species][1];

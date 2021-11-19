@@ -151,7 +151,7 @@ function setup() {
           // Spawns mushrooms in groups
           for (var yy = y; yy < min(y + 3, grid.length); yy++) {
             for (var xx = x; xx < min(x + 3, grid[y].length); xx++) {
-              if (floor(random(3)) == 0) {
+              if (floor(random(4)) == 0) {
 
                 // Adds the mushroom and gives it a classification
                 objects[yy][xx] = new Mushroom((xx - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize ,
@@ -205,7 +205,7 @@ function keyPressed() {
         book.open = false;
       }
    }
-   
+
    // Closes the book
    else if (keyCode === 27) {
      book.open = false;
@@ -239,6 +239,13 @@ function simulation() {
           if (objects[y][x] != null) {
             objects[y][x].x -= player.xVelocity;
             objects[y][x].bboxX -= player.xVelocity;
+
+            // Moves mushrooms growing from trees
+            if (objects[y][x].canSpawnMushrooms == true) {
+              for (var i = 0; i < objects[y][x].mushrooms.length; i++){
+                objects[y][x].mushrooms[i].x -= player.xVelocity;
+              }
+            }
           }
           tiles[y][x].x -= player.xVelocity;
         }
@@ -248,6 +255,13 @@ function simulation() {
           if (objects[y][x] != null) {
             objects[y][x].y -= player.yVelocity;
             objects[y][x].bboxY -= player.yVelocity;
+
+            // Moves mushrooms growing from trees
+            if (objects[y][x].canSpawnMushrooms == true) {
+              for (var i = 0; i < objects[y][x].mushrooms.length; i++){
+                objects[y][x].mushrooms[i].y -= player.yVelocity;
+              }
+            }
           }
           tiles[y][x].y -= player.yVelocity;
         }
@@ -276,7 +290,7 @@ function simulation() {
       if (objects[y][x] != null
         && objects[y][x].x + objects[y][x].sprite.width * tileScale > 0 && objects[y][x].x < width
         && objects[y][x].y + objects[y][x].sprite.height * tileScale > 0 && objects[y][x].y < height) {
-        if (objects[y][x].objectType === 'object' &&
+        if ((objects[y][x].objectType === 'object' || objects[y][x].objectType === 'tree') &&
           player.y + player.size / 2 <= objects[y][x].bboxY + objects[y][x].bboxHeight &&
           player.y + player.size / 2 >= objects[y][x].y &&
           player.x + player.size / 2 >= objects[y][x].x &&
