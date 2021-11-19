@@ -127,7 +127,7 @@ function setup() {
 
       // Stump spawning
       else if (currentObject == 2) {
-        if (canSpawn(x, y, 2, 1, 50)) {
+        if (canSpawn(x, y, 2, 1, 20)) {
           fillGrid(x, y, 2, 1, values.stump);
           objects[y][x] = new Stump((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, 0);
         }
@@ -290,7 +290,7 @@ function simulation() {
       if (objects[y][x] != null
         && objects[y][x].x + objects[y][x].sprite.width * tileScale > 0 && objects[y][x].x < width
         && objects[y][x].y + objects[y][x].sprite.height * tileScale > 0 && objects[y][x].y < height) {
-        if ((objects[y][x].objectType === 'object' || objects[y][x].objectType === 'tree') &&
+        if (objects[y][x].objectType === 'object' &&
           player.y + player.size / 2 <= objects[y][x].bboxY + objects[y][x].bboxHeight &&
           player.y + player.size / 2 >= objects[y][x].y &&
           player.x + player.size / 2 >= objects[y][x].x &&

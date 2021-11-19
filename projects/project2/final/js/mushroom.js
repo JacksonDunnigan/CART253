@@ -4,10 +4,10 @@
 let mushroomSpecies = [["Amanita", ["Muscaria", "Fly Agaric"], ["Guessowii", "Yellow Fly Agaric"], ["Pantherina", "Panther Cap"], ["Phalloides", "Death Cap"], ["Virosa", "Destroying Angel"]],
                       ["Agaricus", ["Bisporus", "Button Mushroom"], ["Arvensis", "Horse Mushroom"], ["Campestris", "Field Mushroom"]],
                       ["Cantharellus", ["Cibarius", "Golden Chantrelle"]],
+                      ["Polyporaceae", ["Laetiporus Sulphureus ", "Chicken of the Woods"], ["Phaeolus Schweinitzii", "Velvet Top"], ["Grifola Frondosa", "Hen of the Woods"], ["Trametes Versicolor", "Turkey Tail"], ["Cerioporus Squamosus", "Pheasent Back"]],
                       ["Pleurotus", ["Ostreatus", "Pearl Oyster"], ["Djamor", "Pink Oyster"], ["Columbinus", "Blue Oyster"], ["Citrinopileatus", "Golden Oyster"]],
                       ["Marasmiaceae", ["Omphalotus Olearius", "Jack-O-Lantern"]],
                       ["Physalacriaceae", ["Armillaria", "Honey Fungus"]],
-                      ["Polyporaceae", ["Laetiporus Sulphureus ", "Chicken of the Woods"], ["Phaeolus Schweinitzii", "Velvet Top"], ["Grifola Frondosa", "Hen of the Woods"], ["Trametes Versicolor", "Turkey Tail"], ["Cerioporus Squamosus", "Pheasent Back"]],
                       ["Hericiaceae", ["Hericium Erinaceus", "Lions Mane"]],
                       ["Hymenogastraceae", ["Galerina Marginata", "Funeral Bell"]]]
 
