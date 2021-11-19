@@ -119,7 +119,7 @@ function setup() {
 
       // Log spawning
       else if (currentObject == 1) {
-        if (canSpawn(x, y, 5, 2, 35)) {
+        if (canSpawn(x, y, 5, 2, 15)) {
           fillGrid(x, y, 5, 2, values.log);
           objects[y][x] = new Log((x - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize , (y - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize, floor(random(3)));
         }

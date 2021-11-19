@@ -49,7 +49,6 @@ class Tree extends Objects {
   display() {
     image(this.sprite, this.x, this.y, this.sprite.width * tileScale, this.sprite.height * tileScale);
     for (var i = 0; i < this.mushrooms.length; i++) {
-
       this.mushrooms[i].display();
     }
   }
@@ -63,10 +62,28 @@ class Log extends Objects {
      this.bboxX = this.x + tileSize;
      this.bboxY = this.y - tileSize /2;
      this.bboxWidth = this.sprite.width * tileScale - tileSize * 2;
+     this.mushrooms = [];
+     this.canSpawnMushrooms = true;
+
+     // Creates mushrooms on the stump
+     if (floor(random(2)) == 0) {
+       var mushroomAmount = floor(random(1, 6));
+       var tempGenus = int(random([4, 5, 7, 8]));
+       var tempSpecies = floor(random(mushroomSpecies[tempGenus].length));
+       for (var i = 0; i < mushroomAmount; i++) {
+
+       // Adds the mushroom and gives it a classification
+       this.mushrooms.push(new Mushroom(floor(random(this.bboxX + 32, this.bboxX + this.bboxWidth - 32)),
+         this.bboxY+ 16, tempGenus, tempSpecies));
+       }
+     }
    }
 
   display() {
     image(this.sprite, this.x, this.y, this.sprite.width * tileScale, (this.sprite.height * tileScale) / 4, 0, this.tileIndex * tileSize, this.sprite.width, this.sprite.width / 4);
+    for (var i = 0; i < this.mushrooms.length; i++) {
+      this.mushrooms[i].display();
+    }
   }
 }
 
@@ -87,11 +104,11 @@ class Stump extends Objects {
        var tempSpecies = floor(random(mushroomSpecies[tempGenus].length));
        for (var i = 0; i < mushroomAmount; i++) {
 
-         // Adds the mushroom and gives it a classification
-         this.mushrooms.push(new Mushroom(this.bboxX + this.bboxWidth/4 + random([-1, 1]) * 8,
-           this.bboxY-8, tempGenus, tempSpecies));
-         }
+       // Adds the mushroom and gives it a classification
+       this.mushrooms.push(new Mushroom(this.bboxX + this.bboxWidth/4 + random([-1, 1]) * 8,
+         this.bboxY-8, tempGenus, tempSpecies));
        }
+     }
    }
 
   display() {
