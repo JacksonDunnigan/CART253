@@ -30,6 +30,7 @@ let values = {
 // Player variables
 let player;
 let shadow;
+let book;
 
 // Sprites
 let spriteGrass;
@@ -41,6 +42,7 @@ let spritePlayer;
 let spriteShadow;
 let spriteBook;
 let spriteMushroom;
+let fontPixel;
 
 // Preloads sprites and audio
 function preload() {
@@ -53,6 +55,7 @@ function preload() {
   spriteShadow = loadImage('assets/images/shadow.png');
   spriteMushroom = loadImage('assets/images/mushrooms.png');
   spriteBook = loadImage('assets/images/book.png');
+  fontPixel = loadFont('assets/ArcadeClassic.ttf');
 }
 
 
@@ -60,10 +63,15 @@ function preload() {
 function setup() {
   createCanvas(screenWidth, screenHeight);
 
+  // Sets the default loadFont
+  textFont(fontPixel);
+
   // Creates the player
   player = new Player(width / 2, height / 2);
   shadow = new Shadow(width / 2, height / 2);
 
+  // Cretes the field guide book
+  book = new Book();
 
   // Defines the tile and object arrays
   for (var y = 0; y < mapSize; y++) {
@@ -135,14 +143,17 @@ function setup() {
 
       // Field mushroom spawning
       else if (currentObject == 4) {
-        if (canSpawn(x, y, 3, 3, 4)) {
+        if (canSpawn(x, y, 3, 3, 10)) {
           fillGrid(x, y, 3, 3, values.mushroom);
-          var tempGenus = floor(random(4));
+          var tempGenus = floor(random(3));
           var tempSpecies = floor(random(mushroomSpecies[tempGenus].length));
 
+          // Spawns mushrooms in groups
           for (var yy = y; yy < min(y + 3, grid.length); yy++) {
             for (var xx = x; xx < min(x + 3, grid[y].length); xx++) {
               if (floor(random(3)) == 0) {
+
+                // Adds the mushroom and gives it a classification
                 objects[yy][xx] = new Mushroom((xx - (mapSize/2) + floor(width / tileFinalSize) / 2) * tileFinalSize ,
                  (yy - (mapSize/2) + floor(height / tileFinalSize) / 2) * tileFinalSize,
                  tempGenus, tempSpecies);
@@ -178,12 +189,33 @@ function canSpawn(x, y, w, h, chance) {
   }
 }
 
+
+// Mouse functionality
+function mousePressed() {
+  book.mousePressed = true;
+}
+function mouseReleased() {
+  book.mousePressed = false;
+}
+function keyPressed() {
+  if (keyCode === 69){
+      if (book.open == false) {
+        book.open = true;
+      } else {
+        book.open = false;
+      }
+   }
+   
+   // Closes the book
+   else if (keyCode === 27) {
+     book.open = false;
+
+  }
+}
 // Main game loop
 function simulation() {
   noSmooth();
   background(51, 152, 76);
-
-
 
   // Player collision
   var xCollide = false;
@@ -233,6 +265,7 @@ function simulation() {
 
   // Draws the players
   player.move();
+  book.move();
   shadow.display();
   var playerDraw = false;
 
@@ -260,8 +293,7 @@ function simulation() {
   }
 
   // User interface
-  image(spriteBook, width - (spriteBook.width * tileScale * 2), height - (spriteBook.height * tileScale * 1.65), spriteBook.width * tileScale, spriteBook.height * tileScale);
-
+  book.display();
 }
 
 // Draws everything on the screen
