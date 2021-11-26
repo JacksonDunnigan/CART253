@@ -44,6 +44,7 @@ let spriteTree;
 let spriteLog;
 let spriteStump;
 let spriteRock;
+let spriteArrow;
 let spritePlayer;
 let spriteShadow;
 let spriteBook;
@@ -61,7 +62,8 @@ function preload() {
   spriteShadow = loadImage('assets/images/shadow.png');
   spriteMushroom = loadImage('assets/images/mushrooms.png');
   spriteBook = loadImage('assets/images/book.png');
-  fontPixel = loadFont('assets/ArcadeClassic.ttf');
+  spriteArrow = loadImage('assets/images/arrow.png');
+  fontPixel = loadFont('assets/Minecraftia.ttf');
   soundClick = createAudio('assets/sounds/click.wav');
   soundMove = createAudio('assets/sounds/move.wav');
   soundPickup = createAudio('assets/sounds/pickup.wav');
