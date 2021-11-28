@@ -138,9 +138,9 @@ class Book {
       var currentText = "Family: " + mushroomSpecies[this.currentFamily][0] + '\n'
                       + "Genus: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][0] + '\n'
                       + "Common name: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][1] + '\n'
-                      + "Features: "
+                      + "Features: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][2];
 
-      text(currentText, width / 7, height *.22, width/3, 400);
+      text(currentText, width / 7, height * .22, width / 3, 400);
       // text("Family: " + mushroomSpecies[this.currentFamily][0], width / 7, height *.35);
       // text("Genus: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][0], width / 7, height *.4);
       // text("Common name: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][1], width / 7, height *.45);
