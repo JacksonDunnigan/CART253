@@ -135,12 +135,23 @@ class Book {
       textSize(28);
       textWrap(WORD)
       textAlign(LEFT, TOP);
+      var currentFeatures = "\n";
+      if (mushroomSpecies[this.currentFamily][this.currentGenus+1].length >= 3) {
+        for (var i = 4; i<mushroomSpecies[this.currentFamily][this.currentGenus+1].length; i++){
+
+          currentFeatures += "-" + mushroomSpecies[this.currentFamily][this.currentGenus+1][i] + "\n";
+        }
+      }
+
       var currentText = "Family: " + mushroomSpecies[this.currentFamily][0] + '\n'
                       + "Genus: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][0] + '\n'
                       + "Common name: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][1] + '\n'
-                      + "Features: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][2];
+                      + "Edibility: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][2] + '\n'
+                      + "Where it grows: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][3];
+
 
       text(currentText, width / 7, height * .22, width / 3, 400);
+      text("Features: " + currentFeatures, width *.525, height * .22, width / 3, 400);
       // text("Family: " + mushroomSpecies[this.currentFamily][0], width / 7, height *.35);
       // text("Genus: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][0], width / 7, height *.4);
       // text("Common name: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][1], width / 7, height *.45);

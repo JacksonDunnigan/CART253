@@ -1,15 +1,47 @@
 
 
 
-let mushroomSpecies = [["Amanita", ["Muscaria", "Fly Agaric", "test"], ["Guessowii", "Yellow Fly Agaric"], ["Pantherina", "Panther Cap"], ["Phalloides", "Death Cap"], ["Virosa", "Destroying Angel"]],
-                      ["Agaricus", ["Bisporus", "Button Mushroom"], ["Arvensis", "Horse Mushroom"], ["Campestris", "Field Mushroom"]],
-                      ["Cantharellus", ["Cibarius", "Golden Chantrelle"]],
-                      ["Polyporaceae", ["Laetiporus Sulphureus ", "Chicken of the Woods"], ["Phaeolus Schweinitzii", "Velvet Top"], ["Grifola Frondosa", "Hen of the Woods"], ["Trametes Versicolor", "Turkey Tail"], ["Cerioporus Squamosus", "Pheasent Back"]],
-                      ["Pleurotus", ["Ostreatus", "Pearl Oyster"], ["Djamor", "Pink Oyster"], ["Columbinus", "Blue Oyster"], ["Citrinopileatus", "Golden Oyster"]],
-                      ["Marasmiaceae", ["Omphalotus Olearius", "Jack-O-Lantern"]],
-                      ["Physalacriaceae", ["Armillaria", "Honey Fungus"]],
-                      ["Hericiaceae", ["Hericium Erinaceus", "Lions Mane"]],
-                      ["Hymenogastraceae", ["Galerina Marginata", "Funeral Bell"]]]
+let mushroomSpecies =
+
+[["Amanita",
+["Muscaria", "Fly Agaric", "Toxic if raw", "Fields", "Red cap", "White spots", "White stem", "White gills"],
+["Guessowii", "Yellow Fly Agaric", "Toxic if raw", "Fields", "Yellow cap", "White spots", "White stem", "White gills"],
+["Pantherina", "Panther Cap", "Toxic if raw", "Fields", "Brown cap", "White spots", "White stem", "White gills"],
+["Phalloides", "Death Cap", "Deadly", "Fields", "Yellow/brown cap", "White stem", "White gills"],
+["Virosa", "Destroying Angel", "Deadly",  "Fields", "Purely white", "White stem", "White gills"]],
+
+["Agaricus",
+["Bisporus", "Button Mushroom", "Edible", "Fields", "Light brown cap", "Round when young", "Pinkish gills", "White stem"],
+["Stropharia", "Wine Cap", "Edible", "Fields", "Pink cap", "Round when young", "Magenta gills","White stem" ],
+["Campestris", "Field Mushroom", "Edible", "Fields", "Light brown cap", "Round when young", "Purple gills", "White stem"]],
+
+["Cantharellus",
+["Cibarius", "Golden Chantrelle", "Edible", "Fields", "Fully orange", "Forked gills","Smells like apricots"]],
+
+["Polyporaceae",
+["Laetiporus Sulphureus ", "Chicken of the Woods", "Edible", "Trees", "Yellow/orange", "Striped", "Grows in large brackets", "Smells like lemon"],
+["Phaeolus Schweinitzii", "Velvet Top", "Toxic", "Trees", "Pinkish white", "Striped", "Grows in large brackets"],
+["Grifola Frondosa", "Hen of the Woods", "Edible", "Trees", "Light brown and grey", "Striped", "Grows in small brackets"],
+["Trametes Versicolor", "Turkey Tail", "Edible", "Trees", "Dark/light brown", "Striped", "Grows in small brackets"],
+["Cerioporus Squamosus", "Pheasent Back", "Edible", "Trees", "Yellowish brown", "Spotted flesh", "Smells like cucumber"]],
+
+["Pleurotus",
+["Ostreatus", "Pearl Oyster"],
+["Djamor", "Pink Oyster"],
+["Columbinus", "Blue Oyster"],
+["Citrinopileatus", "Golden Oyster"]],
+
+["Marasmiaceae",
+["Omphalotus Olearius", "Jack-O-Lantern"]],
+
+["Physalacriaceae",
+["Armillaria", "Honey Fungus"]],
+
+["Hericiaceae",
+["Hericium Erinaceus", "Lions Mane"]],
+
+["Hymenogastraceae",
+["Galerina Marginata", "Funeral Bell"]]]
 
 
 
