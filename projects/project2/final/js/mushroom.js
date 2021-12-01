@@ -26,22 +26,22 @@ let mushroomSpecies =
 ["Cerioporus Squamosus", "Pheasent Back", "Edible", "Trees", "Yellowish brown", "Spotted flesh", "Smells like cucumber"]],
 
 ["Pleurotus",
-["Ostreatus", "Pearl Oyster"],
-["Djamor", "Pink Oyster"],
-["Columbinus", "Blue Oyster"],
-["Citrinopileatus", "Golden Oyster"]],
+["Ostreatus", "Pearl Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Grows in clusters", "White flesh", "Fan shaped cap"],
+["Djamor", "Pink Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Grows in clusters", "Pink flesh", "Fan shaped cap"],
+["Columbinus", "Blue Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Grows in clusters", "Bluish/grey flesh", "Fan shaped cap"],
+["Citrinopileatus", "Golden Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Grows in clusters", "Golden yellow flesh", "Fan shaped cap"]],
 
 ["Marasmiaceae",
-["Omphalotus Olearius", "Jack-O-Lantern"]],
+["Omphalotus Olearius", "Jack-O-Lantern", "Toxic", "Dead trees and stumps", "Fully orange", "Grows in clusters", "Gills run down stem"]],
 
 ["Physalacriaceae",
-["Armillaria", "Honey Fungus"]],
+["Armillaria", "Honey Fungus", "Edible", "Dead trees and stumps", "Yellow/brown flesh", "Small caps", "Grows in clusters"]],
 
 ["Hericiaceae",
-["Hericium Erinaceus", "Lions Mane"]],
+["Hericium Erinaceus", "Lions Mane", "Edible", "Trees, logs and stumps", "White/light brown flesh", "Round", "Speckled texture"]],
 
 ["Hymenogastraceae",
-["Galerina Marginata", "Funeral Bell"]]]
+["Galerina Marginata", "Funeral Bell", "Deadly", "Dead trees and stumps", "Brown/orange flesh", "Skinny stem", "Small caps", "Grows in clusters"]]]
 
 
 
