@@ -68,23 +68,11 @@ class Player {
 
     // Adds deceleration to the velocity
     if (this.xDirection == 0) {
-      //if (this.xVelocity > this.acceleration) {
-      //  this.xVelocity -= this.acceleration;
-      //} else if (this.xVelocity < -this.acceleration) {
-      //  this.xVelocity += this.acceleration;
-      //} else {
-        this.xVelocity = 0;
-      //}
+      this.xVelocity = 0;
     }
 
     if (this.yDirection == 0) {
-      //if (this.yVelocity > this.acceleration) {
-      //  this.yVelocity -= this.acceleration;
-      //} else if (this.yVelocity < -this.acceleration) {
-      //  this.yVelocity += this.acceleration;
-      //} else {
-        this.yVelocity = 0;
-      //}
+      this.yVelocity = 0;
     }
     // Capping the x velocity
     this.xVelocity = constrain(this.xVelocity, -this.terminalXVelocity, this.terminalXVelocity);
