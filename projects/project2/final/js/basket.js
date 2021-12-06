@@ -1,9 +1,9 @@
 
 // Class for the book object
-class Book {
+class Basket {
   constructor() {
     // Drawing
-    this.sprite = spriteBook;
+    this.sprite = spriteBasket;
     this.x = width - (this.sprite.width/4 * tileScale * 2);
     this.y = height - (this.sprite.height * tileScale * 1.5);
     this.width = this.sprite.width/3 * tileScale;
@@ -79,7 +79,7 @@ class Book {
     }
 
     // Opens the book
-    if (mouseX >= this.x && mouseX <= this.x + this.width &&
+    if (mouseX >= this.x - this.sprite.width * (tileScale + 4.25) && mouseX <= this.x - this.sprite.width * tileScale &&
       mouseY >= this.y && mouseY <= this.y + this.height) {
 
       // Highlights the book when the mouse hovers
@@ -96,28 +96,27 @@ class Book {
     }
   }
 
-  // Draws the book on the screen
+  // Draws the basket on the screen
   display() {
-    image(spriteBook, this.x, this.y, this.width, this.height, 0, 0, this.sprite.width / 3, this.sprite.height);
+    image(this.sprite, this.x - this.sprite.width * (tileScale + 4.25), this.y, this.sprite.width * tileScale, this.height);
 
     fill(255);
     textSize(28);
-    text('2', width*.923, height+4);
+    text('1', width * .8275, height+4);
 
     // Hover box
     if (this.hover == true) {
       push();
       fill(255, 255, 255, 50);
       stroke(255);
+      //noFill();
       strokeWeight(3);
-      //noStroke();
-      //rect(this.x, this.y, this.width, this.height);
-      rect(this.x - 8, this.y - 7, this.sprite.width + 38, this.height + 12, 8);
-
+      //noStroke();//mouseX >= this.x - this.sprite.width * (tileScale + 4.25) && mouseX <= this.x - this.sprite.width * tileScale
+      rect(this.x - this.sprite.width * (tileScale + 4.25) - 3, this.y - 5, this.sprite.width*4 + 6, this.height + 12, 8);
       pop();
     }
 
-    // Draws the open book
+    // Draws the open basket
     if (this.open == true) {
       push();
       stroke(28, 19, 24);
@@ -131,45 +130,6 @@ class Book {
       pop();
 
 
-      // Draws the current page
-      push();
-      textSize(32);
-      fill(this.textColor);
-      text(this.currentPage + 1, width / 7, height * .2);
-
-      textSize(28);
-      textWrap(WORD)
-      textAlign(LEFT, TOP);
-      var currentFeatures = "\n";
-      if (mushroomSpecies[this.currentFamily][this.currentGenus+1].length >= 3) {
-        for (var i = 4; i<mushroomSpecies[this.currentFamily][this.currentGenus+1].length; i++){
-
-          currentFeatures += "-" + mushroomSpecies[this.currentFamily][this.currentGenus+1][i] + "\n";
-        }
-      }
-
-      var currentText = "Family: " + mushroomSpecies[this.currentFamily][0] + '\n'
-                      + "Genus: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][0] + '\n'
-                      + "Common name: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][1] + '\n'
-                      + "Edibility: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][2] + '\n'
-                      + "Where it grows: " + mushroomSpecies[this.currentFamily][this.currentGenus+1][3];
-
-
-      text(currentText, width / 7, height * .22, width / 3, 400);
-      text("Features: " + currentFeatures, width *.525, height * .22, width / 3, 400);
-
-      pop();
-
-      // Arrows to change pages
-      push();
-      if (this.currentPage < this.maxPage) {
-        image(spriteArrow, width * .82, height * .8, spriteArrow.width * tileScale, spriteArrow.height * tileScale);
-      }
-      if (this.currentPage > 0) {
-        scale(-1, 1)
-        image(spriteArrow, -width * .18, height * .8, spriteArrow.width * tileScale, spriteArrow.height * tileScale);
-      }
-      pop();
     }
   }
 }

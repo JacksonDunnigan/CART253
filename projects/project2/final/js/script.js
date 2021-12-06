@@ -32,6 +32,7 @@ let values = {
 let player;
 let shadow;
 let book;
+let basket;
 
 // Sounds
 let soundClick;
@@ -49,6 +50,7 @@ let spritePlayer;
 let spriteShadow;
 let spriteBook;
 let spriteMushroom;
+let spriteBasket;
 let fontPixel;
 
 // Preloads sprites and audio
@@ -63,7 +65,10 @@ function preload() {
   spriteMushroom = loadImage('assets/images/mushrooms.png');
   spriteBook = loadImage('assets/images/book.png');
   spriteArrow = loadImage('assets/images/arrow.png');
+  spriteBasket = loadImage('assets/images/basket.png');
+
   fontPixel = loadFont('assets/Minecraftia.ttf');
+
   soundClick = createAudio('assets/sounds/click.wav');
   soundMove = createAudio('assets/sounds/move.wav');
   soundPickup = createAudio('assets/sounds/pickup.wav');
@@ -81,8 +86,9 @@ function setup() {
   player = new Player(width / 2, height / 2);
   shadow = new Shadow(width / 2, height / 2);
 
-  // Cretes the field guide book
+  // Cretes the field guide book and basket
   book = new Book();
+  basket = new Basket();
 
   // Defines the tile and object arrays
   for (var y = 0; y < mapSize; y++) {
@@ -211,7 +217,11 @@ function mouseReleased() {
   book.mousePressed = false;
 }
 function keyPressed() {
-  if (keyCode === 69){
+
+  // Opens the book
+  if (keyCode === 50){
+    soundClick.play();
+
       if (book.open == false) {
         book.open = true;
       } else {
@@ -219,9 +229,21 @@ function keyPressed() {
       }
    }
 
+   // Opens the basket
+   if (keyCode === 49){
+     soundClick.play();
+
+       if (basket.open == false) {
+         basket.open = true;
+       } else {
+         basket.open = false;
+       }
+    }
+
    // Closes the book
    else if (keyCode === 27) {
      book.open = false;
+     basket.open = false;
   }
 }
 
@@ -310,6 +332,7 @@ function simulation() {
   // Draws the players
   player.move();
   book.move();
+  basket.move();
   shadow.display();
   var playerDraw = false;
 
@@ -337,6 +360,8 @@ function simulation() {
   }
 
   // User interface
+  basket.display();
+
   book.display();
 }
 
