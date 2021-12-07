@@ -87,7 +87,7 @@ class Book {
         soundClick.play();
       }
       this.hover = true;
-      if (this.mousePressed == true) {
+      if (this.mousePressed == true && basket.open == false) {
         this.open = true;
       }
 
@@ -102,7 +102,7 @@ class Book {
 
     fill(255);
     textSize(28);
-    text('2', width*.923, height+4);
+    text('2', width*.933, height-20);
 
     // Hover box
     if (this.hover == true) {
@@ -110,8 +110,7 @@ class Book {
       fill(255, 255, 255, 50);
       stroke(255);
       strokeWeight(3);
-      //noStroke();
-      //rect(this.x, this.y, this.width, this.height);
+
       rect(this.x - 8, this.y - 7, this.sprite.width + 38, this.height + 12, 8);
 
       pop();

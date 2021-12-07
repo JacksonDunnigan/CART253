@@ -14,6 +14,7 @@ let tileSize = 16
 let tileScale = 4;
 let tileFinalSize = tileSize * tileScale;
 let mapSize = 256;
+let state = 'title';
 
 // Generation variables
 let tiles = [];
@@ -38,6 +39,7 @@ let basket;
 let soundClick;
 let soundMove;
 let soundPickup;
+let soundError;
 
 // Sprites
 let spriteGrass;
@@ -72,6 +74,7 @@ function preload() {
   soundClick = createAudio('assets/sounds/click.wav');
   soundMove = createAudio('assets/sounds/move.wav');
   soundPickup = createAudio('assets/sounds/pickup.wav');
+  soundError = createAudio('assets/sounds/error.wav');
 }
 
 
@@ -212,9 +215,11 @@ function canSpawn(x, y, w, h, chance) {
 // Mouse functionality
 function mousePressed() {
   book.mousePressed = true;
+  basket.mousePressed = true;
 }
 function mouseReleased() {
   book.mousePressed = false;
+  basket.mousePressed = false;
 }
 function keyPressed() {
 
@@ -222,7 +227,7 @@ function keyPressed() {
   if (keyCode === 50){
     soundClick.play();
 
-      if (book.open == false) {
+      if (book.open == false && basket.open == false) {
         book.open = true;
       } else {
         book.open = false;
@@ -233,7 +238,7 @@ function keyPressed() {
    if (keyCode === 49){
      soundClick.play();
 
-       if (basket.open == false) {
+       if (basket.open == false && book.open == false) {
          basket.open = true;
        } else {
          basket.open = false;
@@ -244,6 +249,50 @@ function keyPressed() {
    else if (keyCode === 27) {
      book.open = false;
      basket.open = false;
+  }
+}
+
+// Title
+function title() {
+  background(51, 152, 76);
+  push();
+  noSmooth();
+
+  // Draws the background tiles
+  for (var y = 0; y < tiles.length; y++) {
+    for (var x = 0; x < tiles[y].length; x++) {
+      if (tiles[y][x] != null
+        && tiles[y][x].x + tileFinalSize > 0 && tiles[y][x].x < width
+        && tiles[y][x].y + tileFinalSize > 0 && tiles[y][x].y < height) {
+        tiles[y][x].display();
+      }
+    }
+  }
+
+  // Draws the objects
+  for (var y = 0; y < objects.length; y++) {
+    for (var x = 0; x < objects[y].length; x++) {
+      if (objects[y][x] != null) {
+        objects[y][x].display();
+      }
+    }
+  }
+  shadow.display();
+  player.display();
+  //Draws text
+  textAlign(CENTER, CENTER);
+  fill(255)
+  textSize(64);
+  text(`Foraging Simulator`, width / 2, height * 0.3);
+  textSize(30);
+  text(`Press Any Key`, width / 2, height * 0.75);
+
+
+
+
+  // Checks if any key is pressed. If so, the game will start
+  if (keyIsPressed === true || mouseIsPressed === true) {
+    state = 'simulation';
   }
 }
 
@@ -273,15 +322,20 @@ function simulation() {
         && dist(player.x, player.y, currentMushroom.x, currentMushroom.y) <= 96) {
 
         if (book.mousePressed) {
-          soundPickup.volume(0.3);
-          soundPickup.play();
-          mushrooms[i].show = false;
-          player.inventory.push(mushrooms[i]);
+
+
+          if (player.inventory.length < player.inventorySize) {
+            mushrooms[i].show = false;
+            soundPickup.volume(0.3);
+            soundPickup.play();
+            player.inventory.push(mushrooms[i]);
+          } else {
+            soundError.volume(0.3);
+            soundError.play();
+          }
         }
       }
     }
-
-
 
   // Moving tiles
   for (var y = 0; y < tiles.length; y++) {
@@ -361,12 +415,14 @@ function simulation() {
 
   // User interface
   basket.display();
-
   book.display();
 }
 
 // Draws everything on the screen
 function draw() {
-  simulation();
-
+  if (state === 'title') {
+    title();
+  } else if (state === 'simulation') {
+    simulation();
+  }
 }
