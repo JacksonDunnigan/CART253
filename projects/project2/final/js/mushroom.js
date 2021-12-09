@@ -11,37 +11,37 @@ let mushroomSpecies =
 ["Virosa", "Destroying Angel", "Deadly",  "Fields", "Purely white", "White stem", "White gills"]],
 
 ["Agaricus",
-["Bisporus", "Button Mushroom", "Edible", "Fields", "Light brown cap", "Round when young", "Pinkish gills", "White stem"],
-["Stropharia", "Wine Cap", "Edible", "Fields", "Pink cap", "Round when young", "Magenta gills","White stem" ],
-["Campestris", "Field Mushroom", "Edible", "Fields", "Light brown cap", "Round when young", "Purple gills", "White stem"]],
+["Bisporus", "Button Mushroom", "Edible", "Fields", "Light brown cap", "Pinkish gills", "White stem"],
+["Stropharia", "Wine Cap", "Edible", "Fields", "Pink cap", "Magenta gills","White stem"],
+["Campestris", "Field Mushroom", "Edible", "Fields", "Light brown cap", "Purple gills", "White stem"]],
 
 ["Cantharellus",
-["Cibarius", "Golden Chantrelle", "Edible", "Fields", "Fully orange", "Forked gills","Smells like apricots"]],
+["Cibarius", "Golden Chantrelle", "Edible", "Fields", "Fully orange", "Forked gills", "Smells like apricots"]],
 
 ["Polyporaceae",
-["Laetiporus Sulphureus ", "Chicken of the Woods", "Edible", "Trees", "Yellow/orange", "Striped", "Grows in large brackets", "Smells like lemon"],
-["Phaeolus Schweinitzii", "Velvet Top", "Toxic", "Trees", "Pinkish white", "Striped", "Grows in large brackets"],
-["Grifola Frondosa", "Hen of the Woods", "Edible", "Trees", "Light brown and grey", "Striped", "Grows in small brackets"],
-["Trametes Versicolor", "Turkey Tail", "Edible", "Trees", "Dark/light brown", "Striped", "Grows in small brackets"],
+["Laetiporus Sulphureus ", "Chicken of the Woods", "Edible", "Trees", "Yellow/orange", "Striped", "Large brackets", "Smells like lemon"],
+["Phaeolus Schweinitzii", "Velvet Top", "Toxic", "Trees", "Pinkish white", "Striped", "Large brackets"],
+["Grifola Frondosa", "Hen of the Woods", "Edible", "Trees", "Light brown and grey", "Striped", "Small brackets"],
+["Trametes Versicolor", "Turkey Tail", "Edible", "Trees", "Dark/light brown", "Striped", "Small brackets"],
 ["Cerioporus Squamosus", "Pheasent Back", "Edible", "Trees", "Yellowish brown", "Spotted flesh", "Smells like cucumber"]],
 
 ["Pleurotus",
-["Ostreatus", "Pearl Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Grows in clusters", "White flesh", "Fan shaped cap"],
-["Djamor", "Pink Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Grows in clusters", "Pink flesh", "Fan shaped cap"],
-["Columbinus", "Blue Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Grows in clusters", "Bluish/grey flesh", "Fan shaped cap"],
-["Citrinopileatus", "Golden Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Grows in clusters", "Golden yellow flesh", "Fan shaped cap"]],
+["Ostreatus", "Pearl Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Growing in Clusters", "White flesh", "Fan shaped cap"],
+["Djamor", "Pink Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Growing in clusters", "Pink flesh", "Fan shaped cap"],
+["Columbinus", "Blue Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Growing in clusters", "Bluish/grey flesh", "Fan shaped cap"],
+["Citrinopileatus", "Golden Oyster", "Edible", "Dead trees and stumps", "Smells like licorice", "Growing in clusters", "Golden yellow flesh", "Fan shaped cap"]],
 
 ["Marasmiaceae",
-["Omphalotus Olearius", "Jack-O-Lantern", "Toxic", "Dead trees and stumps", "Fully orange", "Grows in clusters", "Gills run down stem"]],
+["Omphalotus Olearius", "Jack-O-Lantern", "Toxic", "Dead trees and stumps", "Fully orange", "Growing in clusters", "Gills run down stem"]],
 
 ["Physalacriaceae",
-["Armillaria", "Honey Fungus", "Edible", "Dead trees and stumps", "Yellow/brown flesh", "Small caps", "Grows in clusters"]],
+["Armillaria", "Honey Fungus", "Edible", "Dead trees and stumps", "Yellow/brown flesh", "Small cap", "Growing in clusters"]],
 
 ["Hericiaceae",
 ["Hericium Erinaceus", "Lions Mane", "Edible", "Trees, logs and stumps", "White/light brown flesh", "Round", "Speckled texture"]],
 
 ["Hymenogastraceae",
-["Galerina Marginata", "Funeral Bell", "Deadly", "Dead trees and stumps", "Brown/orange flesh", "Skinny stem", "Small caps", "Grows in clusters"]]]
+["Galerina Marginata", "Funeral Bell", "Deadly", "Dead trees and stumps", "Brown/orange flesh", "Skinny stem", "Small caps", "Growing in clusters"]]]
 
 
 

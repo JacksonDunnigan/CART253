@@ -187,7 +187,7 @@ class Basket {
         }
 
         // Identifying mushrooms in iventory
-        if (i == this.currentSelection && this.inventoryColliding == true) {
+        if (i == this.currentSelection && this.inventoryColliding == true && player.inventory[i] != null) {
           var currentMushroom = player.inventory[i];
 
           push();
@@ -199,9 +199,9 @@ class Basket {
 
           var currentFeatures = "\n";
           if (mushroomSpecies[currentMushroom.genus][currentMushroom.species+1].length >= 3) {
-            for (var i = 4; i<mushroomSpecies[currentMushroom.genus][currentMushroom.species+1].length; i++){
+            for (var j = 4; j < mushroomSpecies[currentMushroom.genus][currentMushroom.species+1].length; j++){
 
-              currentFeatures += "-" + mushroomSpecies[currentMushroom.genus][currentMushroom.species+1][i] + "\n";
+              currentFeatures += "-" + mushroomSpecies[currentMushroom.genus][currentMushroom.species+1][j] + "\n";
             }
           }
 
@@ -209,7 +209,7 @@ class Basket {
           fill(20);
           noStroke();
           textSize(16);
-          text(currentFeatures, width * 0.297 + x * tileFinalSize*1.5 + tileFinalSize*1.5 , height * .115 + y * tileFinalSize*1.53);
+          text(currentFeatures, width * 0.28 + x * tileFinalSize*1.5 + tileFinalSize*1.5 , height * .115 + y * tileFinalSize*1.53, 185);
 
           strokeWeight(2);
           stroke(255);
