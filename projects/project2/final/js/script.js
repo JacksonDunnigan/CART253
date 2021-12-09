@@ -284,6 +284,8 @@ function title() {
   fill(255)
   textSize(64);
   text(`Foraging Simulator`, width / 2, height * 0.3);
+  textSize(18);
+  text(`By Jackson Dunnigan`, width * .292, height * 0.36);
   textSize(30);
   text(`Press Any Key`, width / 2, height * 0.75);
 

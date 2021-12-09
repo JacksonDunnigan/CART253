@@ -29,6 +29,7 @@ class Player {
     this.inventory = [];
     this.inventorySize = 24;
 
+    
     // Synth
     soundMove.volume(0.25);
   }

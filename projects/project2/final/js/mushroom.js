@@ -68,6 +68,12 @@ class Mushroom extends Objects {
     this.genusName = mushroomSpecies[this.genus][0];
     this.speciesName = mushroomSpecies[this.genus][this.species][0];
     this.commonName = mushroomSpecies[this.genus][this.species][1];
+    //this.features = mushroomSpecies[this.genus][this.species][1];
+    // this.features = "";
+    // console.log(this.species+1);
+    // for (var i = 3; i < mushroomSpecies[this.genus][this.species+1].length; i++){
+    //   this.features += "-" + mushroomSpecies[this.genus][this.species+1][i] + "\n";
+    // }
   }
 
   display() {
