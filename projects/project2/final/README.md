@@ -1,6 +1,15 @@
-This is a very early version of foraging simulator. There isn't much gameplay at
-the moment but a significant amount of the games framework is there. At the moment
-you can just explore the randomly generated map and you will soon be able to
-identify mushrooms using the field guide (at the bottom left). The end goal is to
-make a survival game where you must forage the proper species of plants and mushrooms
-to survive.
+CART 253 Final
+by Jackson Dunnigan
+
+Foraging Simulator is a game where you play as a cute little fox and walk around
+randomly generated woods looking for mushrooms to eat.
+
+You walk with WASD and can pickup mushrooms by clicking on them. Press 1, or the
+basket to access your inventory and press 2 or the book to access the field guide.
+The field guide has information to identify all the mushrooms.
+
+Unfortunately I ran out of time to add a hunger/health system, so the game is pretty
+bare bones at the moment. But hopefully with what I have, I've showed a strong grasp
+on the concepts learned in class.
+
+NOTE: I added music but for some reason it only plays on certain browsers :(

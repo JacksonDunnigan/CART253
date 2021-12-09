@@ -40,6 +40,7 @@ let soundClick;
 let soundMove;
 let soundPickup;
 let soundError;
+let soundMusic;
 
 // Sprites
 let spriteGrass;
@@ -75,6 +76,7 @@ function preload() {
   soundMove = createAudio('assets/sounds/move.wav');
   soundPickup = createAudio('assets/sounds/pickup.wav');
   soundError = createAudio('assets/sounds/error.wav');
+  soundMusic = createAudio('assets/sounds/music.mp3');
 }
 
 
@@ -82,8 +84,15 @@ function preload() {
 function setup() {
   createCanvas(screenWidth, screenHeight);
 
+  // Plays the music
+  soundMusic.volume(0.6);
+  soundMusic.loop();
+
   // Sets the default loadFont
   textFont(fontPixel);
+
+  // Sets the cursor
+  // cursor(CROSS);
 
   // Creates the player
   player = new Player(width / 2, height / 2);
